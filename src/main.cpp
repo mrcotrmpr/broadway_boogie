@@ -8,9 +8,9 @@ int main() {
     const std::string filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
 
     CSVReader csvReader(filename);
-    std::vector<std::vector<std::string>> csvData;
+    std::vector<std::vector<std::string>> csvData = csvReader.readCSV();
 
-    if (csvReader.readCSV(csvData)) {
+    if (!csvData.empty()) {
         for (const auto& row : csvData) {
             if (row.size() == 4) {
                 try {
@@ -24,7 +24,8 @@ int main() {
                     std::cout << "Artist: X=" << artist->getX() << ", Y=" << artist->getY()
                         << ", VX=" << artist->getVX() << ", VY=" << artist->getVY() << std::endl;
 
-                } catch (const std::exception& e) {
+                }
+                catch (const std::exception& e) {
                     std::cerr << "Error: " << e.what() << " in row starting with: " << row[0] << std::endl;
                     continue;
                 }
@@ -35,6 +36,4 @@ int main() {
         std::cerr << "Failed to open or read the CSV file." << std::endl;
         return 1;
     }
-
-    return 0;
 }

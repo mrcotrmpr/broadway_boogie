@@ -8,7 +8,7 @@ class CSVReader {
 public:
     explicit CSVReader(const std::string& filename);
 
-    bool readCSV(std::vector<std::vector<std::string>>& data);
+    std::vector<std::vector<std::string>> readCSV();
 
 private:
     std::string filename;

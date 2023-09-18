@@ -4,10 +4,13 @@
 
 CSVReader::CSVReader(const std::string& filename) : filename(filename) {}
 
-bool CSVReader::readCSV(std::vector<std::vector<std::string>>& data) {
+std::vector<std::vector<std::string>> CSVReader::readCSV() {
+    std::vector<std::vector<std::string>> data;
+
     std::ifstream file(filename);
     if (!file.is_open()) {
-        return false;
+        // Return an empty vector on failure
+        return data;
     }
 
     std::string line;
@@ -22,5 +25,5 @@ bool CSVReader::readCSV(std::vector<std::vector<std::string>>& data) {
     }
 
     file.close();
-    return true;
+    return data;
 }
