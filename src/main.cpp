@@ -1,8 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "domain/artist.hpp"
 #include "readers/csv_reader.hpp"
-#include "factories/artist_factory.hpp"
+#include "parsers/csv_parser.hpp"
 
 int main() {
     const std::string filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
@@ -10,30 +9,13 @@ int main() {
     CSVReader csvReader(filename);
     std::vector<std::vector<std::string>> csvData = csvReader.readCSV();
 
-    if (!csvData.empty()) {
-        for (const auto& row : csvData) {
-            if (row.size() == 4) {
-                try {
-                    float x = std::stof(row[0]);
-                    float y = std::stof(row[1]);
-                    float vx = std::stof(row[2]);
-                    float vy = std::stof(row[3]);
+    CSVParser csvParser;
+    std::vector<std::shared_ptr<Artist>> artists = csvParser.parse(csvData);
 
-                    std::shared_ptr<Artist> artist = ArtistFactory::createArtist(x, y, vx, vy);
-
-                    std::cout << "Artist: X=" << artist->getX() << ", Y=" << artist->getY()
-                        << ", VX=" << artist->getVX() << ", VY=" << artist->getVY() << std::endl;
-
-                }
-                catch (const std::exception& e) {
-                    std::cerr << "Error: " << e.what() << " in row starting with: " << row[0] << std::endl;
-                    continue;
-                }
-            }
-        }
+    for (const auto& artist : artists) {
+        std::cout << "Artist: X=" << artist->getX() << ", Y=" << artist->getY()
+            << ", VX=" << artist->getVX() << ", VY=" << artist->getVY() << std::endl;
     }
-    else {
-        std::cerr << "Failed to open or read the CSV file." << std::endl;
-        return 1;
-    }
+
+    return 0;
 }
