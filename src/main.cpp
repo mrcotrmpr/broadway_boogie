@@ -6,8 +6,8 @@
 int main() {
     const std::string filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
 
-    CSVReader csvReader(filename);
-    std::vector<std::vector<std::string>> csvData = csvReader.readCSV();
+    CSVReader csvReader;
+    std::vector<std::vector<std::string>> csvData = csvReader.readCSV(filename);
 
     CSVParser csvParser;
     std::vector<std::shared_ptr<Artist>> artists = csvParser.parse(csvData);

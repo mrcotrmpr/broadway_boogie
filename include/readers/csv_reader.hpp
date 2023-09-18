@@ -6,12 +6,8 @@
 
 class CSVReader {
 public:
-    explicit CSVReader(const std::string& filename);
-
-    std::vector<std::vector<std::string>> readCSV();
-
-private:
-    std::string filename;
+    CSVReader() = default;
+    std::vector<std::vector<std::string>> readCSV(const std::string& filename);
 };
 
 #endif // CSV_READER_HPP
