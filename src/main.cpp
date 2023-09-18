@@ -1,9 +1,12 @@
 #include <iostream>
-#include "test.hpp"
+#include "domain/artist.hpp"
 
 int main()
 {
-	Test test;
-	std::cout << test.hello() << std::endl;
+	Artist artist(1.0, 2.0, 0.5, 0.2);
+
+	std::cout << "Artist: (x=" << artist.getX() << ", y=" << artist.getY()
+		<< ", vx=" << artist.getVX() << ", vy=" << artist.getVY() << ")" << std::endl;
+
 	return 0;
 }
