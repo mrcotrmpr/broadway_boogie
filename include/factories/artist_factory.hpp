@@ -1,17 +1,12 @@
 #ifndef ARTIST_FACTORY_HPP
 #define ARTIST_FACTORY_HPP
 
-#include <memory>
-#include <vector>
-#include "string"
 #include "domain/artist.hpp"
+#include <memory>
 
 class ArtistFactory {
 public:
-    static std::vector<std::shared_ptr<Artist>> createArtistsFromCsv(const std::string& filename);
-
-private:
-    ArtistFactory(); // Private constructor to prevent instantiation.
+    static std::shared_ptr<Artist> createArtist(float x, float y, float vx, float vy);
 };
 
 #endif // ARTIST_FACTORY_HPP

@@ -1,26 +1,26 @@
 #include "readers/csv_reader.hpp"
+#include <fstream>
 #include <sstream>
-#include <iostream>
 
-CsvReader::CsvReader(const std::string& filename, char delimiter)
-    : delimiter(delimiter) {
-    file.open(filename);
-}
+CSVReader::CSVReader(const std::string& filename) : filename(filename) {}
 
-bool CsvReader::isOpen() const {
-    return file.is_open();
-}
+bool CSVReader::readCSV(std::vector<std::vector<std::string>>& data) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        return false;
+    }
 
-bool CsvReader::readRow(std::vector<std::string>& row) {
-    row.clear();
     std::string line;
-    if (std::getline(file, line)) {
-        std::stringstream ss(line);
+    while (std::getline(file, line)) {
+        std::istringstream lineStream(line);
         std::string cell;
-        while (std::getline(ss, cell, delimiter)) {
+        std::vector<std::string> row;
+        while (std::getline(lineStream, cell, ',')) {
             row.push_back(cell);
         }
-        return true;
+        data.push_back(row);
     }
-    return false;
+
+    file.close();
+    return true;
 }

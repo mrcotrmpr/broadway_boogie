@@ -1,20 +1,17 @@
 #ifndef CSV_READER_HPP
 #define CSV_READER_HPP
 
-#include <fstream>
 #include <string>
 #include <vector>
 
-class CsvReader {
+class CSVReader {
 public:
-    CsvReader(const std::string& filename, char delimiter = ',');
+    explicit CSVReader(const std::string& filename);
 
-    bool isOpen() const;
-    bool readRow(std::vector<std::string>& row);
+    bool readCSV(std::vector<std::vector<std::string>>& data);
 
 private:
-    std::ifstream file;
-    char delimiter;
+    std::string filename;
 };
 
 #endif // CSV_READER_HPP
