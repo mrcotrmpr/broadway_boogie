@@ -6,8 +6,7 @@
 
 class CSVReader {
 public:
-    CSVReader() = default;
-    std::vector<std::vector<std::string>> readCSV(const std::string& filename);
+    std::vector<std::vector<std::string>> read(const std::string& filename);
 };
 
 #endif // CSV_READER_HPP

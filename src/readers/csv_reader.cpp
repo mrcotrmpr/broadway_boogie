@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-std::vector<std::vector<std::string>> CSVReader::readCSV(const std::string& filename) {
+std::vector<std::vector<std::string>> CSVReader::read(const std::string& filename) {
     std::vector<std::vector<std::string>> data;
 
     std::ifstream file(filename);
