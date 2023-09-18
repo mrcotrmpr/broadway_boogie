@@ -9,7 +9,6 @@
 
 class CSVParser {
 public:
-    CSVParser() = default;
     std::vector<std::shared_ptr<Artist>> parse(const std::vector<std::vector<std::string>>& csvData);
 };
 
