@@ -7,7 +7,7 @@
 
 class XMLParser {
 public:
-    std::shared_ptr<Museum> parse(const std::string xmlData);
+    std::shared_ptr<Museum> parse(const std::string& xmlData);
 };
 
 #endif // XML_PARSER_HPP

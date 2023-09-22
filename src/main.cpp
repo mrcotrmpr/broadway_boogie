@@ -15,8 +15,8 @@ int main() {
     std::vector<std::shared_ptr<Artist>> artists = csvParser.parse(csvData);
 
     for (const auto& artist : artists) {
-        std::cout << "Artist: X=" << artist->getX() << ", Y=" << artist->getY()
-            << ", VX=" << artist->getVX() << ", VY=" << artist->getVY() << std::endl;
+        std::cout << "Artist: X=" << artist->x << ", Y=" << artist->y
+            << ", VX=" << artist->vx << ", VY=" << artist->vy << std::endl;
     }
 
     XMLReader xmlReader;
