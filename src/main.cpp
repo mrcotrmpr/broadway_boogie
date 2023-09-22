@@ -3,6 +3,7 @@
 #include "readers/csv_reader.hpp"
 #include "readers/xml_reader.hpp"
 #include "parsers/csv_parser.hpp"
+#include "parsers/xml_parser.hpp"
 
 int main() {
     const std::string csv_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
@@ -22,6 +23,9 @@ int main() {
     XMLReader xmlReader;
     std::string xmlContent = xmlReader.read(xml_filename);
     std::cout << xmlContent << std::endl;
+
+    XMLParser xmlParser;
+    xmlParser.parse(xmlContent);
 
     return 0;
 }
