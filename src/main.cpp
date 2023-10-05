@@ -2,6 +2,7 @@
 #include <vector>
 #include "readers/csv_reader.hpp"
 #include "readers/xml_reader.hpp"
+#include "readers/web_reader.hpp"
 #include "parsers/csv_parser.hpp"
 #include "parsers/xml_parser.hpp"
 #include "domain/museum.hpp"
@@ -44,6 +45,9 @@ int main() {
             std::cout << "  Edge X: " << edge->x << ", Y: " << edge->y << std::endl;
         }
     }
+
+    WebReader webReader;
+    webReader.download("");
 
     return 0;
 }

@@ -3,6 +3,7 @@
 project ("broadway_boogie")
 
 set(CMAKE_CXX_STANDARD 17)
+set(BUILD_SHARED_LIBS FALSE) 
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ./src/*.cpp)
 file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS ./include/*.hpp)
@@ -11,8 +12,9 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 
 target_include_directories(broadway_boogie PUBLIC include)
 
-set(CURL_INCLUDE_DIR C:/cmake_prefix_path/curl-8.3.0_2-win64-mingw/include)
-set(CURL_LIBRARY C:/cmake_prefix_path/curl-8.3.0_2-win64-mingw/lib/libcurl_a_debug.lib)
+include(FetchContent)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
+                         GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73)
+FetchContent_MakeAvailable(cpr)
 
-find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIR})
+target_link_libraries(broadway_boogie PRIVATE cpr::cpr)
