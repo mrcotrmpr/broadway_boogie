@@ -3,6 +3,7 @@
 
 class Edge {
 public:
+    Edge() = default;
     Edge(int x, int y);
     int x;
     int y;

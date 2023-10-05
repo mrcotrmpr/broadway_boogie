@@ -1,0 +1,134 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <sstream>
+
+struct Node {
+    std::string tag;
+    int x;
+    int y;
+    std::vector<std::pair<int, int>> edges;
+};
+
+struct NodeType {
+    std::string tag;
+    int red;
+    int green;
+    int blue;
+    int weight;
+};
+
+struct Canvas {
+    int rows;
+    int cols;
+    std::vector<NodeType> nodeTypes;
+    std::vector<Node> nodes;
+};
+
+int main() {
+    std::string xmlData = R"(
+        <?xml version="1.0" ?>
+        <canvas rows="2" cols="2">
+            <nodeTypes>
+                <nodeType tag="Y" red="250" green="201" blue="1" weight="1"/>
+                <nodeType tag="R" red="221" green="1" blue="0" weight="10"/>
+            </nodeTypes>
+            <nodes>
+                <Y x="0" y="0">
+                    <edges>
+                        <edge x="1" y="0"/>
+                        <edge x="0" y="1"/>
+                    </edges>
+                </Y>
+                <Y x="0" y="1">
+                    <edges>
+                        <edge x="0" y="0"/>
+                    </edges>
+                </Y>
+                <R x="1" y="0">
+                    <edges>
+                        <edge x="0" y="0"/>
+                    </edges>
+                </R>
+            </nodes>
+        </canvas>
+    )";
+
+    // Hier kun je de XML-gegevens dynamisch verwerken en in C++-objecten opslaan.
+
+    Canvas canvas;
+    // Een simpele XML-parser die tag-namen en attributen analyseert.
+    std::istringstream ss(xmlData);
+    std::string line;
+
+    while (std::getline(ss, line)) {
+        if (line.find("<canvas") != std::string::npos) {
+            size_t pos1 = line.find("rows=\"") + 6;
+            size_t pos2 = line.find("\"", pos1);
+            canvas.rows = std::stoi(line.substr(pos1, pos2 - pos1));
+
+            pos1 = line.find("cols=\"") + 6;
+            pos2 = line.find("\"", pos1);
+            canvas.cols = std::stoi(line.substr(pos1, pos2 - pos1));
+        }
+        else if (line.find("<nodeType") != std::string::npos) {
+            NodeType nodeType;
+            size_t pos1 = line.find("tag=\"") + 5;
+            size_t pos2 = line.find("\"", pos1);
+            nodeType.tag = line.substr(pos1, pos2 - pos1);
+
+            pos1 = line.find("red=\"") + 5;
+            pos2 = line.find("\"", pos1);
+            nodeType.red = std::stoi(line.substr(pos1, pos2 - pos1));
+
+            // Voeg de NodeType toe aan canvas.nodeTypes
+            canvas.nodeTypes.push_back(nodeType);
+        }
+        else if (line.find("<Y") != std::string::npos || line.find("<R") != std::string::npos) {
+            Node node;
+            size_t pos1 = line.find("x=\"") + 3;
+            size_t pos2 = line.find("\"", pos1);
+            node.x = std::stoi(line.substr(pos1, pos2 - pos1));
+
+            pos1 = line.find("y=\"") + 3;
+            pos2 = line.find("\"", pos1);
+            node.y = std::stoi(line.substr(pos1, pos2 - pos1));
+
+            // Zoek naar edge-elementen binnen de node.
+            while (std::getline(ss, line) && line.find("</Y>") == std::string::npos && line.find("</R>") == std::string::npos) {
+                if (line.find("<edge") != std::string::npos) {
+                    pos1 = line.find("x=\"") + 3;
+                    pos2 = line.find("\"", pos1);
+                    int edgeX = std::stoi(line.substr(pos1, pos2 - pos1));
+
+                    pos1 = line.find("y=\"") + 3;
+                    pos2 = line.find("\"", pos1);
+                    int edgeY = std::stoi(line.substr(pos1, pos2 - pos1));
+
+                    node.edges.push_back(std::make_pair(edgeX, edgeY));
+                }
+            }
+
+            // Voeg de Node toe aan canvas.nodes
+            canvas.nodes.push_back(node);
+        }
+    }
+
+    // Toon de verwerkte gegevens
+    std::cout << "Rows: " << canvas.rows << ", Cols: " << canvas.cols << std::endl;
+    std::cout << "NodeTypes:" << std::endl;
+    for (const auto& nodeType : canvas.nodeTypes) {
+        std::cout << "Tag: " << nodeType.tag << ", Red: " << nodeType.red << ", Green: " << nodeType.green << ", Blue: " << nodeType.blue << ", Weight: " << nodeType.weight << std::endl;
+    }
+    std::cout << "Nodes:" << std::endl;
+    for (const auto& node : canvas.nodes) {
+        std::cout << "X: " << node.x << ", Y: " << node.y << std::endl;
+        std::cout << "Edges:" << std::endl;
+        for (const auto& edge : node.edges) {
+            std::cout << "Edge X: " << edge.first << ", Edge Y: " << edge.second << std::endl;
+        }
+    }
+
+    return 0;
+}
