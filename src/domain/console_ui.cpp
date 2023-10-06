@@ -26,10 +26,15 @@ XMLParser xmlParser;
 
 void ConsoleUI::start() {
     while (true) {
-        displayMenu();
         int choice;
-        std::cin >> choice;
-        processChoice(choice);
+        if (!std::cin) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        } else {
+            displayMenu();
+            std::cin >> choice;
+            processChoice(choice);
+        }
     }
 }
 
@@ -63,13 +68,15 @@ void ConsoleUI::processChoice(int choice) {
         printMuseum(museum);
         break;
     case 3:
-        // Print Museum
+        // Print Artists (web)
+        std::cout << "Sending request to: " << csv_url << "..." << std::endl;
         csv_data = webReader.read(csv_url);
         artists = csvParser.parse(csv_data);
         printArtists(artists);
         break;
     case 4:
-        // Print Museum
+        // Print Museum (web)
+        std::cout << "Sending request to: " << xml_url << "..." << std::endl;
         xml_content = webReader.read(xml_url);
         museum = xmlParser.parse(xml_content);
         printMuseum(museum);
@@ -79,6 +86,7 @@ void ConsoleUI::processChoice(int choice) {
         std::cout << "Exiting the program." << std::endl;
         exit(0);
     default:
+        system("CLS");
         std::cout << "Invalid choice. Please enter a valid option." << std::endl;
         break;
     }
