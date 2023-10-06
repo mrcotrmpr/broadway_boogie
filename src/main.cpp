@@ -7,6 +7,14 @@
 #include "parsers/xml_parser.hpp"
 #include "domain/museum.hpp"
 
+void printArtists(std::vector<std::shared_ptr<Artist>> artists) {
+    for (const auto& artist : artists) {
+        std::cout << "Artist: X=" << artist->x << ", Y=" << artist->y
+            << ", VX=" << artist->vx << ", VY=" << artist->vy << std::endl;
+    };
+    std::cout << "---" << std::endl;
+}
+
 void printMuseum(std::shared_ptr<Museum> museum) {
     std::cout << "numRows: " << museum->numRows << std::endl;
     std::cout << "numCols: " << museum->numCols << std::endl;
@@ -29,9 +37,14 @@ void printMuseum(std::shared_ptr<Museum> museum) {
 }
 
 int main() {
+    // Files
     const std::string csv_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
     const std::string xml_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\graph.xml";
 
+    // Urls
+    const std::string xml_url = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media";
+    const std::string csv_url = "https://filebin.net/8eynljvrm1cq98ci/artists.csv";
+ 
     // Init readers
     CSVReader csvReader;
     XMLReader xmlReader;
@@ -42,22 +55,23 @@ int main() {
     XMLParser xmlParser;
 
     // Test CSV
-    std::string csvData = csvReader.read(csv_filename);
-    std::vector<std::shared_ptr<Artist>> artists = csvParser.parse(csvData);
-
-    for (const auto& artist : artists) {
-        std::cout << "Artist: X=" << artist->x << ", Y=" << artist->y
-            << ", VX=" << artist->vx << ", VY=" << artist->vy << std::endl;
-    }
+    std::string csv_data = csvReader.read(csv_filename);
+    std::vector<std::shared_ptr<Artist>> artists = csvParser.parse(csv_data);
+    printArtists(artists);
 
     // Test XML
-    std::string xmlContent = xmlReader.read(xml_filename);
-    std::shared_ptr<Museum> museum = xmlParser.parse(xmlContent);
+    std::string xml_content = xmlReader.read(xml_filename);
+    std::shared_ptr<Museum> museum = xmlParser.parse(xml_content);
     printMuseum(museum);
 
-    std::string webXmlContent = webReader.read("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media");
-    std::shared_ptr<Museum> webMuseum = xmlParser.parse(webXmlContent);
-    printMuseum(webMuseum);
+    // Test Web 
+    std::string web_csv_data = webReader.read(csv_url);
+    std::vector<std::shared_ptr<Artist>> web_artists = csvParser.parse(web_csv_data);
+    printArtists(web_artists);
+
+    std::string web_xml_content = webReader.read(xml_url);
+    std::shared_ptr<Museum> web_museum = xmlParser.parse(web_xml_content);
+    printMuseum(web_museum);
 
     return 0;
 }
