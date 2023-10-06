@@ -41,20 +41,27 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // Define the coordinates and dimensions of a white rectangle
-    SDL_Rect whiteRect;
-    whiteRect.x = 100; // X-coordinate of the top-left corner
-    whiteRect.y = 100; // Y-coordinate of the top-left corner
-    whiteRect.w = 200; // Width of the rectangle
-    whiteRect.h = 200; // Height of the rectangle
+    // Define the scale factor based on the window dimensions
+    int windowWidth = 800;
+    int windowHeight = 800;
+    float scaleX = static_cast<float>(windowWidth) / 53.0f; // Scale factor for X
+    float scaleY = static_cast<float>(windowHeight) / 53.0f; // Scale factor for Y
 
     // Set the drawing color to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    // Fill the rectangle with white color
-    SDL_RenderFillRect(renderer, &whiteRect);
+    // Render artists with scaling
+    for (const auto& artist : artists) {
+        SDL_Rect artistRect;
+        // Scale the artist's position
+        artistRect.x = static_cast<int>(artist->x * scaleX);
+        artistRect.y = static_cast<int>(artist->y * scaleY);
+        // Scale the artist's size based on the grid cell size
+        artistRect.w = static_cast<int>(50);
+        artistRect.h = static_cast<int>(50);
+        SDL_RenderFillRect(renderer, &artistRect);
+    }
 
-    // Present the rendered content
     SDL_RenderPresent(renderer);
 }
 
