@@ -6,6 +6,7 @@
 #include "parsers/csv_parser.hpp"
 #include "parsers/xml_parser.hpp"
 #include "domain/museum.hpp"
+#include "presentation/sdl_facade.hpp"
 
 // Files
 const std::string csv_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
@@ -44,7 +45,8 @@ void ConsoleUI::displayMenu() const {
     std::cout << "2. Print Museum (local)" << std::endl;
     std::cout << "3. Print Museum (web)" << std::endl;
     std::cout << "4. Print Artists (web)" << std::endl;
-    std::cout << "5. Exit" << std::endl;
+    std::cout << "5. Start animation" << std::endl;
+    std::cout << "6. Exit" << std::endl;
     std::cout << "Enter your choice: ";
 }
 
@@ -82,6 +84,11 @@ void ConsoleUI::processChoice(int choice) {
         printMuseum(museum);
         break;
     case 5:
+        // Start the presentation
+        startPresentation();
+        system("CLS");
+        break;
+    case 6:
         // Exit the program
         std::cout << "Exiting the program." << std::endl;
         exit(0);
@@ -121,4 +128,17 @@ void ConsoleUI::printMuseum(std::shared_ptr<Museum> museum) const {
         }
     }
     std::cout << "---" << std::endl;
+}
+
+void ConsoleUI::startPresentation()
+{
+    SDLFacade sdl;
+    if (sdl.init() && sdl.createWindow("Museum", 800, 800)) {
+        bool quit = false;
+        while (!quit) {
+            sdl.render();
+            quit = !sdl.handleEvents();
+        }
+    }
+    sdl.cleanup();
 }

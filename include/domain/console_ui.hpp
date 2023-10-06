@@ -13,6 +13,7 @@ private:
 	void processChoice(int choice);
 	void printArtists(std::vector<std::shared_ptr<Artist>> artists) const;
 	void printMuseum(std::shared_ptr<Museum> museum) const;
+	void startPresentation();
 };
 
 #endif // CONSOLE_UI_HPP
