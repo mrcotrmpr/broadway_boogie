@@ -41,18 +41,16 @@ void ConsoleUI::start() {
 
 void ConsoleUI::displayMenu() const {
     std::cout << "Menu:" << std::endl;
-    std::cout << "1. Print Artists (local)" << std::endl;
-    std::cout << "2. Print Museum (local)" << std::endl;
-    std::cout << "3. Print Artists (web)" << std::endl;
-    std::cout << "4. Print Museum (web)" << std::endl;
+    std::cout << "1. Load artists (local)" << std::endl;
+    std::cout << "2. Load museum (local)" << std::endl;
+    std::cout << "3. Load artists (web)" << std::endl;
+    std::cout << "4. Load museum (web)" << std::endl;
     std::cout << "5. Start animation" << std::endl;
     std::cout << "6. Exit" << std::endl;
     std::cout << "Enter your choice: ";
 }
 
 void ConsoleUI::processChoice(int choice) {
-    std::vector<std::shared_ptr<Artist>> artists;
-    std::shared_ptr<Museum> museum;
     std::string csv_data;
     std::string xml_content;
 
@@ -84,10 +82,24 @@ void ConsoleUI::processChoice(int choice) {
         printMuseum(museum);
         break;
     case 5:
-        // Start the presentation
-        startPresentation();
-        system("CLS");
+        if (artists.empty() || !museum) {
+            system("CLS");
+            std::cout << "Please load ";
+            if (artists.empty()) std::cout << "artists";
+            if (artists.empty() && !museum) std::cout << " and ";
+            if (!museum) std::cout << "museum";
+            std::cout << " data before starting the presentation." << std::endl;
+        }
+        else {
+            // Start the presentation
+            startPresentation();
+            system("CLS");
+
+            artists.clear();
+            museum.reset();
+        }
         break;
+
     case 6:
         // Exit the program
         std::cout << "Exiting the program." << std::endl;
