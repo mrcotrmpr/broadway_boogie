@@ -1,10 +1,21 @@
 #include "parsers/csv_parser.hpp"
 #include <iostream>
+#include <sstream>
 
-std::vector<std::shared_ptr<Artist>> CSVParser::parse(const std::vector<std::vector<std::string>>& csvData) {
+std::vector<std::shared_ptr<Artist>> CSVParser::parse(const std::string& csvString) {
     std::vector<std::shared_ptr<Artist>> artists;
+    std::istringstream dataStream(csvString);
 
-    for (const auto& row : csvData) {
+    std::string line;
+    while (std::getline(dataStream, line)) {
+        std::istringstream lineStream(line);
+        std::string cell;
+        std::vector<std::string> row;
+
+        while (std::getline(lineStream, cell, ',')) {
+            row.push_back(cell);
+        }
+
         if (row.size() == 4) {
             try {
                 float x = std::stof(row[0]);
@@ -14,7 +25,6 @@ std::vector<std::shared_ptr<Artist>> CSVParser::parse(const std::vector<std::vec
 
                 std::shared_ptr<Artist> artist = ArtistFactory::createArtist(x, y, vx, vy);
                 artists.push_back(artist);
-
             }
             catch (const std::invalid_argument& e) {
                 // Skip if row cannot be parsed to type float
@@ -22,6 +32,5 @@ std::vector<std::shared_ptr<Artist>> CSVParser::parse(const std::vector<std::vec
             }
         }
     }
-
     return artists;
 }

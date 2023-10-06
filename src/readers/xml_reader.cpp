@@ -2,8 +2,8 @@
 #include <fstream>
 #include <iostream>
 
-std::string XMLReader::read(const std::string& filename) {
-    std::ifstream file(filename);
+std::string XMLReader::read(const std::string& input) {
+    std::ifstream file(input);
     if (!file.is_open()) {
         std::cerr << "Cannot open the XML file" << std::endl;
         return "";

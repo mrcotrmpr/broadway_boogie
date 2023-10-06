@@ -1,11 +1,11 @@
 #ifndef WEB_READER_HPP
 #define WEB_READER_HPP
 
-#include <string>
+#include "reader.hpp"
 
-class WebReader {
+class WebReader : public Reader {
 public:
-    void download(const std::string& url);
+    std::string read(const std::string& input) override;
 };
 
 #endif // WEB_READER_HPP

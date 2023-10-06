@@ -9,7 +9,7 @@
 
 class CSVParser {
 public:
-    std::vector<std::shared_ptr<Artist>> parse(const std::vector<std::vector<std::string>>& csvData);
+    std::vector<std::shared_ptr<Artist>> parse(const std::string& csvString);
 };
 
 #endif // CSV_PARSER_HPP

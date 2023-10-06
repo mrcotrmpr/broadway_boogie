@@ -1,12 +1,11 @@
 #ifndef CSV_READER_HPP
 #define CSV_READER_HPP
 
-#include <string>
-#include <vector>
+#include "reader.hpp"
 
-class CSVReader {
+class CSVReader : public Reader {
 public:
-    std::vector<std::vector<std::string>> read(const std::string& filename);
+    std::string read(const std::string& input) override;
 };
 
 #endif // CSV_READER_HPP

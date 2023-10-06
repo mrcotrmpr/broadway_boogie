@@ -1,27 +1,13 @@
 #include "readers/csv_reader.hpp"
 #include <fstream>
-#include <sstream>
 
-std::vector<std::vector<std::string>> CSVReader::read(const std::string& filename) {
-    std::vector<std::vector<std::string>> data;
-
-    std::ifstream file(filename);
+std::string CSVReader::read(const std::string& input) {
+    std::ifstream file(input);
     if (!file.is_open()) {
-        // Return an empty vector on failure
-        return data;
+        return "";
     }
 
-    std::string line;
-    while (std::getline(file, line)) {
-        std::istringstream lineStream(line);
-        std::string cell;
-        std::vector<std::string> row;
-        while (std::getline(lineStream, cell, ',')) {
-            row.push_back(cell);
-        }
-        data.push_back(row);
-    }
-
+    std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
-    return data;
+    return fileContent;
 }

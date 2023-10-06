@@ -1,11 +1,11 @@
 #ifndef XML_READER_HPP
 #define XML_READER_HPP
 
-#include <string>
+#include "reader.hpp"
 
-class XMLReader {
+class XMLReader : public Reader {
 public:
-    std::string read(const std::string& filename);
+	std::string read(const std::string& input) override;
 };
 
 #endif // XML_READER_HPP
