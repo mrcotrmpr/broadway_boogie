@@ -13,8 +13,16 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 target_include_directories(broadway_boogie PUBLIC include)
 
 include(FetchContent)
-FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                         GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73)
-FetchContent_MakeAvailable(cpr)
+FetchContent_Declare(
+    cpr 
+    GIT_REPOSITORY https://github.com/libcpr/cpr.git
+    GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73
+)
+FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG release-2.24.1
+)
+FetchContent_MakeAvailable(cpr SDL2)
 
-target_link_libraries(broadway_boogie PRIVATE cpr::cpr)
+target_link_libraries(broadway_boogie PRIVATE cpr::cpr SDL2::SDL2-static)
