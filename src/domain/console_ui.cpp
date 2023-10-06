@@ -43,8 +43,8 @@ void ConsoleUI::displayMenu() const {
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Print Artists (local)" << std::endl;
     std::cout << "2. Print Museum (local)" << std::endl;
-    std::cout << "3. Print Museum (web)" << std::endl;
-    std::cout << "4. Print Artists (web)" << std::endl;
+    std::cout << "3. Print Artists (web)" << std::endl;
+    std::cout << "4. Print Museum (web)" << std::endl;
     std::cout << "5. Start animation" << std::endl;
     std::cout << "6. Exit" << std::endl;
     std::cout << "Enter your choice: ";
