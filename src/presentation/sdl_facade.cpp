@@ -62,6 +62,33 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
         SDL_RenderFillRect(renderer, &artistRect);
     }
 
+    for (const auto& node : museum->nodes) {
+        //TODO: adjust RGB based on NodeType
+        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+
+        // Calculate the screen coordinates of the node
+        SDL_Rect nodeRect;
+        nodeRect.x = static_cast<int>(node->x * scaleX);
+        nodeRect.y = static_cast<int>(node->y * scaleY);
+        nodeRect.w = 50;
+        nodeRect.h = 50;
+        SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255); // Red color for edges
+        SDL_RenderDrawRect(renderer, &nodeRect);
+
+        // TODO: check if this actually works
+        // Draw edges as dark blue lines
+        for (const auto& edge : node->edges) {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            SDL_RenderDrawLine(renderer,
+                static_cast<int>(node->x * scaleX),
+                static_cast<int>(node->y * scaleY),
+                static_cast<int>(edge->x * scaleX),
+                static_cast<int>(edge->y * scaleY)
+            );
+        }
+
+    }
+
     SDL_RenderPresent(renderer);
 }
 
