@@ -8,8 +8,7 @@
 
 class Museum {
 public:
-	Museum() = default;
-	Museum(int numRows, int numCols);
+	Museum(int numRows, int numCols, std::vector<std::shared_ptr<NodeType>> nodeTypes, std::vector<std::shared_ptr<Node>> nodes);
 	int numRows;
 	int numCols;
 	std::vector<std::shared_ptr<NodeType>> nodeTypes;

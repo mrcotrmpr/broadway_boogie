@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "domain/museum.hpp"
+#include "factories/museum_factory.hpp"
 
 class XMLParser {
 public:

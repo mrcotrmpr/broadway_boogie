@@ -7,7 +7,10 @@
 #include <sstream>
 
 std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
-    std::shared_ptr<Museum> museum = std::make_shared<Museum>();
+    int numRows = -1;
+    int numCols = -1;
+    std::vector<std::shared_ptr<NodeType>> nodeTypes;
+    std::vector<std::shared_ptr<Node>> nodes;
 
     try {
         std::istringstream xmlStream(xmlData);
@@ -29,8 +32,8 @@ std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
             if (line.find("<canvas rows=") != std::string::npos) {
                 // Parse numRows and numCols from the canvas tag
                 std::vector<int> rowsCols = parseDimensions(line);
-                museum->numRows = rowsCols[0];
-                museum->numCols = rowsCols[1];
+                numRows = rowsCols[0];
+                numCols = rowsCols[1];
             }
             else if (line.find("<nodeTypes>") != std::string::npos) {
                 // Start parsing node types
@@ -51,7 +54,7 @@ std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
             else if (insideNodeTypes) {
                 // Parse node type information
                 std::shared_ptr<NodeType> nodeType = parseNodeType(line);
-                museum->nodeTypes.push_back(nodeType);
+                nodeTypes.push_back(nodeType);
             }
             else if (insideNodes) {
                 // Parse node information and add to the museum
@@ -61,7 +64,7 @@ std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
                     if (tagStart != std::string::npos && tagEnd != std::string::npos) {
                         char nodeTag = line[tagStart];
 
-                        for (const auto& nodeType : museum->nodeTypes) {
+                        for (const auto& nodeType : nodeTypes) {
                             if (nodeType->tag == nodeTag) {
                                 std::vector<std::string> edgesStrings;
 
@@ -80,7 +83,7 @@ std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
                                     edgesStrings.push_back(xml_line);
                                 }
                                 std::shared_ptr<Node> node = parseNode(line, nodeTag, edgesStrings);
-                                museum->nodes.push_back(node);
+                                nodes.push_back(node);
                                 break;
                             }
                         }
@@ -94,7 +97,7 @@ std::shared_ptr<Museum> XMLParser::parse(const std::string& xmlData) {
         std::cerr << "Error parsing XML: " << e.what() << std::endl;
     }
 
-    return museum;
+    return MuseumFactory::createMuseum(numRows, numCols, nodeTypes, nodes);
 }
 
 // Helper function to trim leading and trailing whitespace
