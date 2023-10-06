@@ -3,6 +3,11 @@
 
 #include <SDL.h>
 #include <string>
+#include "domain/artist.hpp"
+#include "domain/museum.hpp"
+
+class Artist;
+class Museum;
 
 class SDLFacade {
 public:
@@ -10,7 +15,7 @@ public:
     ~SDLFacade();
     bool init();
     bool createWindow(const std::string& title, int width, int height);
-    void render();
+    void render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum);
     bool handleEvents();
     void cleanup();
 private:

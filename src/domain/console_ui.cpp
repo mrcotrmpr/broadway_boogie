@@ -148,7 +148,7 @@ void ConsoleUI::startPresentation()
     if (sdl.init() && sdl.createWindow("Museum", 800, 800)) {
         bool quit = false;
         while (!quit) {
-            sdl.render();
+            sdl.render(artists, museum);
             quit = !sdl.handleEvents();
         }
     }

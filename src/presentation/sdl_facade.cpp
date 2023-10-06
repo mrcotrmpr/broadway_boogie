@@ -37,9 +37,24 @@ bool SDLFacade::createWindow(const std::string& title, int width, int height) {
     return true;
 }
 
-void SDLFacade::render() {
+void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+
+    // Define the coordinates and dimensions of a white rectangle
+    SDL_Rect whiteRect;
+    whiteRect.x = 100; // X-coordinate of the top-left corner
+    whiteRect.y = 100; // Y-coordinate of the top-left corner
+    whiteRect.w = 200; // Width of the rectangle
+    whiteRect.h = 200; // Height of the rectangle
+
+    // Set the drawing color to white
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    // Fill the rectangle with white color
+    SDL_RenderFillRect(renderer, &whiteRect);
+
+    // Present the rendered content
     SDL_RenderPresent(renderer);
 }
 
