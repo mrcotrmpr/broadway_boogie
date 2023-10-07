@@ -45,8 +45,10 @@ void ConsoleUI::displayMenu() const {
     std::cout << "2. Load museum (local)" << std::endl;
     std::cout << "3. Load artists (web)" << std::endl;
     std::cout << "4. Load museum (web)" << std::endl;
-    std::cout << "5. Start animation" << std::endl;
-    std::cout << "6. Exit" << std::endl;
+    std::cout << "5. Print artists" << std::endl;
+    std::cout << "6. Print museum" << std::endl;
+    std::cout << "7. Start animation" << std::endl;
+    std::cout << "8. Exit" << std::endl;
     std::cout << "Enter your choice: ";
 }
 
@@ -56,32 +58,54 @@ void ConsoleUI::processChoice(int choice) {
 
     switch (choice) {
     case 1:
-        // Print Artists
+        // Load Artists
         csv_data = csvReader.read(csv_filename);
         artists = csvParser.parse(csv_data);
-        printArtists(artists);
+        system("CLS");
+        std::cout << "Artists loaded!" << std::endl;
         break;
     case 2:
-        // Print Museum
+        // Load Museum
         xml_content = xmlReader.read(xml_filename);
         museum = xmlParser.parse(xml_content);
-        printMuseum(museum);
+        system("CLS");
+        std::cout << "Museum loaded!" << std::endl;
         break;
     case 3:
-        // Print Artists (web)
+        // Load Artists (web)
         std::cout << "Sending request to: " << csv_url << "..." << std::endl;
         csv_data = webReader.read(csv_url);
         artists = csvParser.parse(csv_data);
-        printArtists(artists);
+        system("CLS");
+        std::cout << "Artists loaded!" << std::endl;
         break;
     case 4:
-        // Print Museum (web)
+        // Load Museum (web)
         std::cout << "Sending request to: " << xml_url << "..." << std::endl;
         xml_content = webReader.read(xml_url);
         museum = xmlParser.parse(xml_content);
-        printMuseum(museum);
+        system("CLS");
+        std::cout << "Museum loaded!" << std::endl;
         break;
     case 5:
+        // Print artists
+        if (!artists.empty()) {
+            printArtists(artists);
+        }
+        else {
+            system("CLS");
+        }
+        break;
+    case 6:
+        // Print museum
+        if (museum) {
+            printMuseum(museum);
+        }
+        else {
+            system("CLS");
+        }
+        break;
+    case 7:
         if (artists.empty() || !museum) {
             system("CLS");
             std::cout << "Please load ";
@@ -99,8 +123,7 @@ void ConsoleUI::processChoice(int choice) {
             museum.reset();
         }
         break;
-
-    case 6:
+    case 8:
         // Exit the program
         std::cout << "Exiting the program." << std::endl;
         exit(0);
