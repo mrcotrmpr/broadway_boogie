@@ -16,6 +16,7 @@ public:
     bool init();
     bool createWindow(const std::string& title, int width, int height);
     void render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum);
+    void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists);
     bool handleEvents();
     void cleanup();
 private:

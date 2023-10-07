@@ -1,6 +1,7 @@
 #include "presentation/sdl_facade.hpp"
 #include <iostream>
 #include <unordered_map>
+#include <cstdlib>
 
 SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) {}
 
@@ -72,15 +73,15 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
         SDL_RenderFillRect(renderer, &nodeRect);
 
         // Draw edges
-        //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        //for (const auto& edge : node->edges) {
-        //    SDL_RenderDrawLine(renderer,
-        //        static_cast<int>(node->x * scaleX),
-        //        static_cast<int>(node->y * scaleY),
-        //        static_cast<int>(edge->x * scaleX),
-        //        static_cast<int>(edge->y * scaleY)
-        //    );
-        //}
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        for (const auto& edge : node->edges) {
+            SDL_RenderDrawLine(renderer,
+                static_cast<int>(node->x * scaleX),
+                static_cast<int>(node->y * scaleY),
+                static_cast<int>(edge->x * scaleX),
+                static_cast<int>(edge->y * scaleY)
+            );
+        }
     }
 
     // Render artists
@@ -94,7 +95,31 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
         SDL_RenderFillRect(renderer, &artistRect);
     }
 
+    moveArtistsRandomly(artists);
+
     SDL_RenderPresent(renderer);
+}
+
+void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists) {
+    float artistSpeed = 0.2f;
+    for (auto& artist : artists) {
+        int direction = rand() % 4;
+
+        switch (direction) {
+        case 0: // Move north
+            artist->y -= artistSpeed;
+            break;
+        case 1: // Move east
+            artist->x += artistSpeed;
+            break;
+        case 2: // Move south
+            artist->y += artistSpeed;
+            break;
+        case 3: // Move west
+            artist->x -= artistSpeed;
+            break;
+        }
+    }
 }
 
 bool SDLFacade::handleEvents() {
