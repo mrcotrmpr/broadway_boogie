@@ -106,26 +106,31 @@ void SDLFacade::renderArtists(std::vector<std::shared_ptr<Artist>>& artists, flo
 }
 
 void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists) {
-    float artistSpeed = 0.2f;
     for (auto& artist : artists) {
         int direction = rand() % 4;
 
+        int vx = artist->vx;
+        int vy = artist->vy;
+
         switch (direction) {
         case 0: // Move north
-            artist->y -= artistSpeed;
+            vy = -1;
             break;
         case 1: // Move east
-            artist->x += artistSpeed;
+            vx = 1;
             break;
         case 2: // Move south
-            artist->y += artistSpeed;
+            vy = 1;
             break;
         case 3: // Move west
-            artist->x -= artistSpeed;
+            vx = -1;
             break;
         }
+        artist->x += vx * 0.2f;
+        artist->y += vy * 0.2f;
     }
 }
+
 
 bool SDLFacade::handleEvents() {
     SDL_Event event;
