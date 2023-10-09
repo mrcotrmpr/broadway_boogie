@@ -143,14 +143,39 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
 
             // Check if the artist's position is within the bounds of the node
             if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
-                // Collision detected, you can take appropriate action here
-                // For example, print a message or update some state
-                std::cout << "Artist collided with node: " << node->tag << std::endl;
+                char nodeTag = getNodeTag(nodeX, nodeY, museum, scaleX, scaleY);
+                std::cout << "Artist passed over a node with color: ";
+
+                if (nodeTag == 'R') {
+                    std::cout << "red";
+                }
+                else if (nodeTag == 'B') {
+                    std::cout << "blue";
+                }
+                else if (nodeTag == 'Y') {
+                    std::cout << "yellow";
+                }
+                else if (nodeTag == 'G') {
+                    std::cout << "gray";
+                }
+                std::cout << std::endl;
+
             }
         }
     }
 }
 
+char SDLFacade::getNodeTag(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
+    for (const auto& node : museum->nodes) {
+        float scaledNodeX = node->x * scaleX;
+        float scaledNodeY = node->y * scaleY;
+
+        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
+            return node->tag;
+        }
+    }
+    return 'W'; // Default to white if no node is found
+}
 
 bool SDLFacade::handleEvents() {
     SDL_Event event;
