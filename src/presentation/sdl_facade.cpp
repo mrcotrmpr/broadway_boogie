@@ -136,6 +136,13 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
         float artistX = artist->x * scaleX;
         float artistY = artist->y * scaleY;
 
+        // Initialize variables to keep track of the previous node's coordinates
+        static float prevNodeX = -1.0f;  // Initialize to an invalid value
+        static float prevNodeY = -1.0f;  // Initialize to an invalid value
+
+        // Initialize a flag to track if the artist is currently on a node
+        bool artistOnNode = false;
+
         // Iterate through the museum nodes to check for collisions
         for (const auto& node : museum->nodes) {
             float nodeX = node->x * scaleX;
@@ -143,27 +150,50 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
 
             // Check if the artist's position is within the bounds of the node
             if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
-                char nodeTag = getNodeTag(nodeX, nodeY, museum, scaleX, scaleY);
-                std::cout << "Artist passed over a node with color: ";
+                // Check if the artist is not already on a node
+                if (!artistOnNode) {
+                    // Check if the current node is different from the previous node
+                    if (nodeX != prevNodeX || nodeY != prevNodeY) {
+                        char nodeTag = getNodeTag(nodeX, nodeY, museum, scaleX, scaleY);
+                        std::cout << "Artist passed over a node with color: ";
 
-                if (nodeTag == 'R') {
-                    std::cout << "red";
-                }
-                else if (nodeTag == 'B') {
-                    std::cout << "blue";
-                }
-                else if (nodeTag == 'Y') {
-                    std::cout << "yellow";
-                }
-                else if (nodeTag == 'G') {
-                    std::cout << "gray";
-                }
-                std::cout << std::endl;
+                        switch (nodeTag) {
+                        case 'R':
+                            std::cout << "red";
+                            break;
+                        case 'B':
+                            std::cout << "blue";
+                            break;
+                        case 'Y':
+                            std::cout << "yellow";
+                            break;
+                        case 'G':
+                            std::cout << "gray";
+                            break;
+                        default:
+                            std::cout << "unknown";
+                            break;
+                        }
 
+                        std::cout << std::endl;
+
+                        // Update the previous node's coordinates
+                        prevNodeX = nodeX;
+                        prevNodeY = nodeY;
+                    }
+                }
+
+                // Set the flag to indicate that the artist is on a node
+                artistOnNode = true;
+            }
+            else {
+                // Artist is not on this node
+                artistOnNode = false;
             }
         }
     }
 }
+
 
 char SDLFacade::getNodeTag(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
     for (const auto& node : museum->nodes) {
