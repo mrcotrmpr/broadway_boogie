@@ -51,6 +51,7 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
     renderMuseum(museum, scaleX, scaleY);
     renderArtists(artists, scaleX, scaleY);
     moveArtistsRandomly(artists);
+    detectCollisions(artists, museum, scaleX, scaleY);
 
     SDL_RenderPresent(renderer);
 }
@@ -128,6 +129,28 @@ void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artist
         artist->y += artist->vy * deltaTime;
     }
 }
+
+void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
+    for (auto& artist : artists) {
+        // Calculate the position of the artist on the scaled coordinates
+        float artistX = artist->x * scaleX;
+        float artistY = artist->y * scaleY;
+
+        // Iterate through the museum nodes to check for collisions
+        for (const auto& node : museum->nodes) {
+            float nodeX = node->x * scaleX;
+            float nodeY = node->y * scaleY;
+
+            // Check if the artist's position is within the bounds of the node
+            if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
+                // Collision detected, you can take appropriate action here
+                // For example, print a message or update some state
+                std::cout << "Artist collided with node: " << node->tag << std::endl;
+            }
+        }
+    }
+}
+
 
 bool SDLFacade::handleEvents() {
     SDL_Event event;

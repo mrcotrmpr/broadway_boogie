@@ -19,6 +19,7 @@ public:
     void renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     void renderArtists(std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY);
     void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists);
+    void detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     bool handleEvents();
     void cleanup();
 private:
