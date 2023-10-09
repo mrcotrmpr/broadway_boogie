@@ -106,31 +106,28 @@ void SDLFacade::renderArtists(std::vector<std::shared_ptr<Artist>>& artists, flo
 }
 
 void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists) {
+    float deltaTime = 0.1f; // Adjust this to control the speed of movement
+    float damping = 0.98f;  // Adjust this to control the smoothness of movement
+
     for (auto& artist : artists) {
-        int direction = rand() % 4;
+        // Apply damping to gradually slow down the artist's speed
+        artist->vx *= damping;
+        artist->vy *= damping;
 
-        int vx = artist->vx;
-        int vy = artist->vy;
+        int direction = rand() % 2; // 0 for horizontal, 1 for vertical
 
-        switch (direction) {
-        case 0: // Move north
-            vy = -1;
-            break;
-        case 1: // Move east
-            vx = 1;
-            break;
-        case 2: // Move south
-            vy = 1;
-            break;
-        case 3: // Move west
-            vx = -1;
-            break;
+        if (direction == 0) {
+            artist->vx += (static_cast<float>(rand() % 3 - 1) * 0.1f);
         }
-        artist->x += vx * 0.2f;
-        artist->y += vy * 0.2f;
+        else {
+            artist->vy += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+        }
+
+        // Update position based on velocity
+        artist->x += artist->vx * deltaTime;
+        artist->y += artist->vy * deltaTime;
     }
 }
-
 
 bool SDLFacade::handleEvents() {
     SDL_Event event;
