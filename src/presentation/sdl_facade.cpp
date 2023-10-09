@@ -111,22 +111,24 @@ void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artist
     float damping = 0.98f;  // Adjust this to control the smoothness of movement
 
     for (auto& artist : artists) {
-        // Apply damping to gradually slow down the artist's speed
-        artist->vx *= damping;
-        artist->vy *= damping;
+        if (artistsMoving) {
+            // Apply damping to gradually slow down the artist's speed
+            artist->vx *= damping;
+            artist->vy *= damping;
 
-        int direction = rand() % 2; // 0 for horizontal, 1 for vertical
+            int direction = rand() % 2; // 0 for horizontal, 1 for vertical
 
-        if (direction == 0) {
-            artist->vx += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+            if (direction == 0) {
+                artist->vx += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+            }
+            else {
+                artist->vy += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+            }
+
+            // Update position based on velocity
+            artist->x += artist->vx * deltaTime;
+            artist->y += artist->vy * deltaTime;
         }
-        else {
-            artist->vy += (static_cast<float>(rand() % 3 - 1) * 0.1f);
-        }
-
-        // Update position based on velocity
-        artist->x += artist->vx * deltaTime;
-        artist->y += artist->vy * deltaTime;
     }
 }
 
@@ -211,8 +213,20 @@ bool SDLFacade::handleEvents() {
         if (event.type == SDL_QUIT) {
             return false;
         }
+        else if (event.type == SDL_KEYDOWN) {
+            handleKeyPress(event.key.keysym.sym);
+        }
     }
     return true;
+}
+
+void SDLFacade::handleKeyPress(SDL_Keycode key) {
+    switch (key) {
+    case SDLK_SPACE:
+        // Toggle the artistsMoving flag when the SPACE key is pressed
+        artistsMoving = !artistsMoving;
+        break;
+    }
 }
 
 void SDLFacade::cleanup() {

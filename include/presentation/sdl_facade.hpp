@@ -22,11 +22,13 @@ public:
     void detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     char getNodeTag(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     bool handleEvents();
+    void handleKeyPress(SDL_Keycode key);
     void cleanup();
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;
+    bool artistsMoving = true;
 };
 
 #endif // SDL_FACADE_HPP
