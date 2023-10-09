@@ -137,13 +137,12 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
         float artistY = artist->y * scaleY;
 
         // Initialize variables to keep track of the previous node's coordinates
-        static float prevNodeX = -1.0f;  // Initialize to an invalid value
-        static float prevNodeY = -1.0f;  // Initialize to an invalid value
+        static float prevNodeX = -1.0f;
+        static float prevNodeY = -1.0f;
 
         // Initialize a flag to track if the artist is currently on a node
         bool artistOnNode = false;
 
-        // Iterate through the museum nodes to check for collisions
         for (const auto& node : museum->nodes) {
             float nodeX = node->x * scaleX;
             float nodeY = node->y * scaleY;
@@ -193,7 +192,6 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
         }
     }
 }
-
 
 char SDLFacade::getNodeTag(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
     for (const auto& node : museum->nodes) {
