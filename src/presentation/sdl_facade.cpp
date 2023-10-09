@@ -48,12 +48,19 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
     float scaleX = static_cast<float>(windowWidth) / 53.0f;
     float scaleY = static_cast<float>(windowHeight) / 53.0f;
 
+    renderMuseum(museum, scaleX, scaleY);
+    renderArtists(artists, scaleX, scaleY);
+    moveArtistsRandomly(artists);
+
+    SDL_RenderPresent(renderer);
+}
+
+void SDLFacade::renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
     std::unordered_map<char, std::shared_ptr<NodeType>> nodeTypeMap;
     for (auto type : museum->nodeTypes) {
         nodeTypeMap[type->tag] = type;
     }
 
-    // Render nodes and edges first
     for (const auto& node : museum->nodes) {
         auto nodeTypeIt = nodeTypeMap.find(node->tag);
 
@@ -83,7 +90,9 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
             );
         }
     }
+}
 
+void SDLFacade::renderArtists(std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY) {
     // Render artists
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     for (const auto& artist : artists) {
@@ -94,10 +103,6 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
         artistRect.h = 7;
         SDL_RenderFillRect(renderer, &artistRect);
     }
-
-    moveArtistsRandomly(artists);
-
-    SDL_RenderPresent(renderer);
 }
 
 void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists) {
