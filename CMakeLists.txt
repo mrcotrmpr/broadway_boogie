@@ -5,6 +5,8 @@ project ("broadway_boogie")
 set(CMAKE_CXX_STANDARD 17)
 set(BUILD_SHARED_LIBS FALSE) 
 
+find_package(SDL2 REQUIRED)
+
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ./src/*.cpp)
 file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS ./include/*.hpp)
 
@@ -18,11 +20,6 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/libcpr/cpr.git
     GIT_TAG 2553fc41450301cd09a9271c8d2c3e0cf3546b73
 )
-FetchContent_Declare(
-    SDL2
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-2.24.1
-)
-FetchContent_MakeAvailable(cpr SDL2)
+FetchContent_MakeAvailable(cpr)
 
-target_link_libraries(broadway_boogie PRIVATE cpr::cpr SDL2::SDL2-static)
+target_link_libraries(broadway_boogie PRIVATE cpr::cpr SDL2::SDL2)
