@@ -3,10 +3,15 @@
 #include <unordered_map>
 #include <cstdlib>
 
-SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) {}
+SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) {
+    if (!sdlTtfFacade .init()) {
+        std::cerr << "SDL TTF Facade initialization failed." << std::endl;
+    }
+}
 
 SDLFacade::~SDLFacade() {
     cleanup();
+    sdlTtfFacade.cleanup();
 }
 
 bool SDLFacade::init() {
@@ -80,54 +85,11 @@ void SDLFacade::renderOverlayMenu() {
     textRect.h = 20;
 
     if (artistsMoving) {
-        renderText("Artists moving: on", textRect);
+        sdlTtfFacade.renderText(renderer, "Artists moving: on", textRect);
     }
     else {
-        renderText("Artists moving: off", textRect);
+        sdlTtfFacade.renderText(renderer, "Artists moving: off", textRect);
     }
-}
-
-void SDLFacade::renderText(const std::string& text, const SDL_Rect& destRect) {
-    if (TTF_Init() == -1) {
-        std::cerr << "SDL_ttf initialization failed: " << TTF_GetError() << std::endl;
-        return;
-    }
-
-    SDL_Color textColor = { 255, 255, 255, 255 }; // White color (RGBA)
-    TTF_Font* font = TTF_OpenFont("C:\\Users\\marco\\source\\repos\\test\\data\\fonts\\Roboto-Regular.ttf", 24);
-
-    if (!font) {
-        std::cerr << "Failed to load default font: " << TTF_GetError() << std::endl;
-        TTF_Quit();
-        return;
-    }
-
-    // Render the text surface
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-    if (!textSurface) {
-        std::cerr << "Failed to create text surface: " << TTF_GetError() << std::endl;
-        TTF_CloseFont(font);
-        TTF_Quit();
-        return;
-    }
-
-    // Create a texture from the text surface
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    if (!textTexture) {
-        std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(textSurface);
-        TTF_CloseFont(font);
-        TTF_Quit();
-        return;
-    }
-
-    SDL_RenderCopy(renderer, textTexture, NULL, &destRect);
-
-    // Clean up resources
-    SDL_DestroyTexture(textTexture);
-    SDL_FreeSurface(textSurface);
-    TTF_CloseFont(font);
-    TTF_Quit();
 }
 
 void SDLFacade::renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
@@ -168,7 +130,6 @@ void SDLFacade::renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float
 }
 
 void SDLFacade::renderArtists(std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY) {
-    // Render artists
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     for (const auto& artist : artists) {
         SDL_Rect artistRect;
@@ -181,8 +142,8 @@ void SDLFacade::renderArtists(std::vector<std::shared_ptr<Artist>>& artists, flo
 }
 
 void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists) {
-    float deltaTime = 0.1f; // Adjust this to control the speed of movement
-    float damping = 0.98f;  // Adjust this to control the smoothness of movement
+    float deltaTime = 0.1f; // Control the speed of movement
+    float damping = 0.98f;  // Control the smoothness of movement
 
     for (auto& artist : artists) {
         if (artistsMoving) {

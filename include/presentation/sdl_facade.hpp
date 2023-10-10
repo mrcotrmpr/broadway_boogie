@@ -6,6 +6,7 @@
 #include <string>
 #include "domain/artist.hpp"
 #include "domain/museum.hpp"
+#include "presentation/sdl_ttf_facade.hpp"
 
 class Artist;
 class Museum;
@@ -18,7 +19,6 @@ public:
     bool createWindow(const std::string& title, int width, int height);
     void render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum);
     void renderOverlayMenu();
-    void renderText(const std::string& text, const SDL_Rect& destRect);
     void renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     void renderArtists(std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY);
     void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists);
@@ -28,6 +28,7 @@ public:
     void handleKeyPress(SDL_Keycode key);
     void cleanup();
 private:
+    SDLTTFFacade sdlTtfFacade;
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;
