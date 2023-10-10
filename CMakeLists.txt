@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(BUILD_SHARED_LIBS FALSE) 
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ./src/*.cpp)
 file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS ./include/*.hpp)
@@ -22,4 +23,4 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(cpr)
 
-target_link_libraries(broadway_boogie PRIVATE cpr::cpr SDL2::SDL2)
+target_link_libraries(broadway_boogie PRIVATE cpr::cpr SDL2::SDL2 SDL2_ttf::SDL2_ttf)

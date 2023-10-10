@@ -53,7 +53,81 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
     moveArtistsRandomly(artists);
     detectCollisions(artists, museum, scaleX, scaleY);
 
+    if (menuVisible) {
+        renderOverlayMenu();
+    }
+
     SDL_RenderPresent(renderer);
+}
+
+void SDLFacade::renderOverlayMenu() {
+    // Draw a background rectangle for the menu
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Black with some transparency
+    SDL_Rect menuRect;
+    menuRect.x = 10;
+    menuRect.y = 10;
+    menuRect.w = 180;
+    menuRect.h = 50;
+    SDL_RenderFillRect(renderer, &menuRect);
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
+
+    // Render the menu text
+    SDL_Rect textRect;
+    textRect.x = 20;
+    textRect.y = 20;
+    textRect.w = 160;
+    textRect.h = 20;
+
+    if (artistsMoving) {
+        renderText("Artists moving: on", textRect);
+    }
+    else {
+        renderText("Artists moving: off", textRect);
+    }
+}
+
+void SDLFacade::renderText(const std::string& text, const SDL_Rect& destRect) {
+    if (TTF_Init() == -1) {
+        std::cerr << "SDL_ttf initialization failed: " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color (RGBA)
+    TTF_Font* font = TTF_OpenFont("C:\\Users\\marco\\source\\repos\\test\\data\\fonts\\Roboto-Regular.ttf", 24);
+
+    if (!font) {
+        std::cerr << "Failed to load default font: " << TTF_GetError() << std::endl;
+        TTF_Quit();
+        return;
+    }
+
+    // Render the text surface
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    if (!textSurface) {
+        std::cerr << "Failed to create text surface: " << TTF_GetError() << std::endl;
+        TTF_CloseFont(font);
+        TTF_Quit();
+        return;
+    }
+
+    // Create a texture from the text surface
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    if (!textTexture) {
+        std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+        SDL_FreeSurface(textSurface);
+        TTF_CloseFont(font);
+        TTF_Quit();
+        return;
+    }
+
+    SDL_RenderCopy(renderer, textTexture, NULL, &destRect);
+
+    // Clean up resources
+    SDL_DestroyTexture(textTexture);
+    SDL_FreeSurface(textSurface);
+    TTF_CloseFont(font);
+    TTF_Quit();
 }
 
 void SDLFacade::renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
@@ -225,6 +299,10 @@ void SDLFacade::handleKeyPress(SDL_Keycode key) {
     case SDLK_SPACE:
         // Toggle the artistsMoving flag when the SPACE key is pressed
         artistsMoving = !artistsMoving;
+        break;
+    case SDLK_m:
+        // Toggle the menuVisible flag when the 'M' key is pressed
+        menuVisible = !menuVisible;
         break;
     }
 }

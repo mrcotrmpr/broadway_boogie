@@ -2,6 +2,7 @@
 #define SDL_FACADE_HPP
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 #include "domain/artist.hpp"
 #include "domain/museum.hpp"
@@ -16,6 +17,8 @@ public:
     bool init();
     bool createWindow(const std::string& title, int width, int height);
     void render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum);
+    void renderOverlayMenu();
+    void renderText(const std::string& text, const SDL_Rect& destRect);
     void renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float scaleY);
     void renderArtists(std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY);
     void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists);
@@ -28,7 +31,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;
-    bool artistsMoving = true;
+    bool artistsMoving = false;
+    bool menuVisible = false;
 };
 
 #endif // SDL_FACADE_HPP
