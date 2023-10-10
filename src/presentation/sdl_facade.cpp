@@ -207,6 +207,11 @@ void SDLFacade::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artist
 }
 
 void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
+    if (!artistsMoving) {
+        // If artists are not moving, don't perform collision detection
+        return;
+    }
+
     for (auto& artist : artists) {
         // Calculate the position of the artist on the scaled coordinates
         float artistX = artist->x * scaleX;
