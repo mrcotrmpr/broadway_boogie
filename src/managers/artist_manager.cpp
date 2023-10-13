@@ -66,8 +66,9 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                 if (!artistOnNode) {
                     // Check if the current node is different from the previous node
                     if (nodeX != prevNodeX || nodeY != prevNodeY) {
-                        std::shared_ptr<Node> node = getNode(nodeX, nodeY, game->museum, scaleX, scaleY);
-                        node->state->handleInteraction(game, nodeX, nodeY, artistX, artistY);
+                        std::shared_ptr<Node> node = game->getNode(nodeX, nodeY, scaleX, scaleY);
+                        std::shared_ptr<Artist> artist = game->getArtist(artistX, artistY, scaleX, scaleY);
+                        node->state->handleInteraction(game, node, artist);
 
                         // Update the previous node's coordinates
                         prevNodeX = nodeX;
@@ -84,16 +85,4 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
             }
         }
     }
-}
-
-std::shared_ptr<Node> ArtistManager::getNode(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
-    for (const auto& node : museum->nodes) {
-        float scaledNodeX = node->x * scaleX;
-        float scaledNodeY = node->y * scaleY;
-
-        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
-            return node;
-        }
-    }
-    return nullptr;
 }

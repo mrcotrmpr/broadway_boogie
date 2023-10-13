@@ -13,7 +13,6 @@ public:
     void renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY);
     void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists, bool artistsMoving);
     void detectCollisions(std::shared_ptr<Game> game, float scaleX, float scaleY, bool artistsMoving);
-    std::shared_ptr<Node> getNode(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY);
 };
 
 #endif // ARTIST_MANAGER_HPP

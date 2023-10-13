@@ -177,3 +177,27 @@ void Game::startPresentation()
     }
     sdl->cleanup();
 }
+
+std::shared_ptr<Node> Game::getNode(float x, float y, float scaleX, float scaleY) {
+    for (const auto& node : museum->nodes) {
+        float scaledNodeX = node->x * scaleX;
+        float scaledNodeY = node->y * scaleY;
+
+        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
+            return node;
+        }
+    }
+    return nullptr;
+}
+
+std::shared_ptr<Artist> Game::getArtist(float x, float y, float scaleX, float scaleY) {
+    for (const auto& artist : artists) {
+        float scaledNodeX = artist->x * scaleX;
+        float scaledNodeY = artist->y * scaleY;
+
+        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
+            return artist;
+        }
+    }
+    return nullptr;
+}

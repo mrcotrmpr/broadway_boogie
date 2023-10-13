@@ -2,13 +2,14 @@
 #define NODE_STATE_HPP
 
 #include <memory>
-#include <string>
 
+class Node;
+class Artist;
 class Game;
 
 class NodeState {
 public:
-    virtual void handleInteraction(std::shared_ptr<Game> game, float nodeX, float nodeY, float artistX, float artistY) = 0;
+    virtual void handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<Node> node, std::shared_ptr<Artist> artist) = 0;
     virtual ~NodeState() = default;
 };
 
