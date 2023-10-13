@@ -167,13 +167,13 @@ void ConsoleUI::printMuseum(std::shared_ptr<Museum> museum) const {
 
 void ConsoleUI::startPresentation()
 {
-    SDLFacade sdl;
-    if (sdl.init() && sdl.createWindow("Museum", 800, 800)) {
+    sdl = std::make_shared<SDLFacade>();
+    if (sdl->init() && sdl->createWindow("Museum", 800, 800)) {
         bool quit = false;
         while (!quit) {
-            sdl.render(artists, museum);
-            quit = !sdl.handleEvents();
+            sdl->render(artists, museum);
+            quit = !sdl->handleEvents();
         }
     }
-    sdl.cleanup();
+    sdl->cleanup();
 }

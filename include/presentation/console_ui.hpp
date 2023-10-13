@@ -16,6 +16,7 @@ private:
 	void startPresentation();
 	std::vector<std::shared_ptr<Artist>> artists;
 	std::shared_ptr<Museum> museum;
+	std::shared_ptr<SDLFacade> sdl;
 };
 
 #endif // CONSOLE_UI_HPP

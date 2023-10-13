@@ -11,7 +11,7 @@
 class Artist;
 class Museum;
 
-class SDLFacade {
+class SDLFacade : public std::enable_shared_from_this<SDLFacade> {
 public:
     SDLFacade();
     ~SDLFacade();
@@ -28,7 +28,7 @@ public:
     void handleKeyPress(SDL_Keycode key);
     void cleanup();
 private:
-    SDLTTFFacade sdlTtfFacade;
+    std::shared_ptr<SDLTTFFacade> sdlTtfFacade;
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;

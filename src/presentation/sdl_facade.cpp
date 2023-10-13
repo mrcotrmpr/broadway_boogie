@@ -9,14 +9,15 @@
 #include <cstdlib>
 
 SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) {
-    if (!sdlTtfFacade .init()) {
+    sdlTtfFacade = std::make_shared<SDLTTFFacade>();
+    if (!sdlTtfFacade->init()) {
         std::cerr << "SDL TTF Facade initialization failed." << std::endl;
     }
 }
 
 SDLFacade::~SDLFacade() {
     cleanup();
-    sdlTtfFacade.cleanup();
+    sdlTtfFacade->cleanup();
 }
 
 bool SDLFacade::init() {
@@ -90,10 +91,10 @@ void SDLFacade::renderOverlayMenu() {
     textRect.h = 20;
 
     if (artistsMoving) {
-        sdlTtfFacade.renderText(renderer, "Artists moving: on", textRect);
+        sdlTtfFacade->renderText(renderer, "Artists moving: on", textRect);
     }
     else {
-        sdlTtfFacade.renderText(renderer, "Artists moving: off", textRect);
+        sdlTtfFacade->renderText(renderer, "Artists moving: off", textRect);
     }
 }
 
@@ -214,7 +215,7 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
                     if (nodeX != prevNodeX || nodeY != prevNodeY) {
                         std::shared_ptr<Node> node = getNode(nodeX, nodeY, museum, scaleX, scaleY);
                         
-                        node->state->handleInteraction(nullptr);
+                        node->state->handleInteraction(shared_from_this());
 
                         // Update the previous node's coordinates
                         prevNodeX = nodeX;
