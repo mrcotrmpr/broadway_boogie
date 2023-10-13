@@ -13,7 +13,7 @@ void ArtistManager::renderArtists(SDL_Renderer* renderer, std::vector<std::share
 }
 
 void ArtistManager::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists, bool artistsMoving) {
-    float deltaTime = 0.1f; // Control the speed of movement
+    float deltaTime = 0.5f; // Control the speed of movement
     float damping = 0.98f;  // Control the smoothness of movement
 
     for (auto& artist : artists) {
@@ -22,13 +22,22 @@ void ArtistManager::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& ar
             artist->vx *= damping;
             artist->vy *= damping;
 
-            int direction = rand() % 2; // 0 for horizontal, 1 for vertical
-
-            if (direction == 0) {
-                artist->vx += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+            // Check the current direction of the artist
+            if (artist->direction == 0) {
+                artist->vy = -0.1f; // Move north
+                artist->vx = 0.0f;
             }
-            else {
-                artist->vy += (static_cast<float>(rand() % 3 - 1) * 0.1f);
+            else if (artist->direction == 1) {
+                artist->vx = 0.1f; // Move east
+                artist->vy = 0.0f;
+            }
+            else if (artist->direction == 2) {
+                artist->vy = 0.1f; // Move south
+                artist->vx = 0.0f;
+            }
+            else if (artist->direction == 3) {
+                artist->vx = -0.1f; // Move west
+                artist->vy = 0.0f;
             }
 
             // Update position based on velocity
@@ -45,8 +54,9 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
     }
 
     for (auto& artist : game->artists) {
-        // Calculate the position of the artist on the scaled coordinates
         if (artist) {
+        
+            // Calculate the position of the artist on the scaled coordinates
             float artistX = artist->x * scaleX;
             float artistY = artist->y * scaleY;
 
@@ -91,4 +101,6 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
         
         }
     }
+    game->artists.insert(game->artists.end(), game->newArtists.begin(), game->newArtists.end());
+    game->newArtists.clear(); // Clear the newArtists vector for the next iteration
 }

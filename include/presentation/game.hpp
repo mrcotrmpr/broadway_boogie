@@ -21,6 +21,7 @@ public:
 	std::shared_ptr<Node> getNode(float x, float y, float scaleX, float scaleY);
 	std::shared_ptr<Artist> getArtist(float x, float y, float scaleX, float scaleY);
 	std::vector<std::shared_ptr<Artist>> artists;
+	std::vector<std::shared_ptr<Artist>> newArtists;
 	std::shared_ptr<Museum> museum;
 	std::shared_ptr<SDLFacade> sdl;
 };

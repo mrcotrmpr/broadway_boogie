@@ -10,6 +10,7 @@ public:
     float y;
     float vx;
     float vy;
+    int direction = rand() % 4;
 };
 
 #endif // ARTIST_HPP
