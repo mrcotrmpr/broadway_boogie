@@ -1,4 +1,4 @@
-#include "presentation/console_ui.hpp"
+#include "presentation/game.hpp"
 #include <iostream>
 #include "readers/csv_reader.hpp"
 #include "readers/xml_reader.hpp"
@@ -25,7 +25,7 @@ WebReader webReader;
 CSVParser csvParser;
 XMLParser xmlParser;
 
-void ConsoleUI::start() {
+void Game::start() {
     while (true) {
         int choice;
         if (!std::cin) {
@@ -39,7 +39,7 @@ void ConsoleUI::start() {
     }
 }
 
-void ConsoleUI::displayMenu() const {
+void Game::displayMenu() const {
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Load artists (local)" << std::endl;
     std::cout << "2. Load museum (local)" << std::endl;
@@ -52,7 +52,7 @@ void ConsoleUI::displayMenu() const {
     std::cout << "Enter your choice: ";
 }
 
-void ConsoleUI::processChoice(int choice) {
+void Game::processChoice(int choice) {
     std::string csv_data;
     std::string xml_content;
 
@@ -90,7 +90,7 @@ void ConsoleUI::processChoice(int choice) {
     case 5:
         // Print artists
         if (!artists.empty()) {
-            printArtists(artists);
+            printArtists();
         }
         else {
             system("CLS");
@@ -99,7 +99,7 @@ void ConsoleUI::processChoice(int choice) {
     case 6:
         // Print museum
         if (museum) {
-            printMuseum(museum);
+            printMuseum();
         }
         else {
             system("CLS");
@@ -134,7 +134,7 @@ void ConsoleUI::processChoice(int choice) {
     }
 }
 
-void ConsoleUI::printArtists(std::vector<std::shared_ptr<Artist>> artists) const {
+void Game::printArtists() const {
     system("CLS");
     for (const auto& artist : artists) {
         std::cout << "Artist: X=" << artist->x << ", Y=" << artist->y
@@ -143,7 +143,7 @@ void ConsoleUI::printArtists(std::vector<std::shared_ptr<Artist>> artists) const
     std::cout << "---" << std::endl;
 }
 
-void ConsoleUI::printMuseum(std::shared_ptr<Museum> museum) const {
+void Game::printMuseum() const {
     system("CLS");
     std::cout << "numRows: " << museum->numRows << std::endl;
     std::cout << "numCols: " << museum->numCols << std::endl;
@@ -165,13 +165,13 @@ void ConsoleUI::printMuseum(std::shared_ptr<Museum> museum) const {
     std::cout << "---" << std::endl;
 }
 
-void ConsoleUI::startPresentation()
+void Game::startPresentation()
 {
     sdl = std::make_shared<SDLFacade>();
-    if (sdl->init() && sdl->createWindow("Museum", 800, 800)) {
+    if (sdl->init(shared_from_this()) && sdl->createWindow("Museum", 800, 800)) {
         bool quit = false;
         while (!quit) {
-            sdl->render(artists, museum);
+            sdl->render();
             quit = !sdl->handleEvents();
         }
     }

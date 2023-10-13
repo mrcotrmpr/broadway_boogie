@@ -5,7 +5,7 @@
 
 class YellowState : public NodeState {
 public:
-    void handleInteraction(std::shared_ptr<SDLFacade> sdl) override;
+    void handleInteraction(std::shared_ptr<Game> game) override;
 };
 
 #endif // YELLOW_STATE_HPP

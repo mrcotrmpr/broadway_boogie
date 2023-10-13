@@ -15,11 +15,12 @@ SDLFacade::~SDLFacade() {
     cleanup();
 }
 
-bool SDLFacade::init() {
+bool SDLFacade::init(std::shared_ptr<Game> game) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL initialization failed: " << SDL_GetError() << std::endl;
         return false;
     }
+    gameState = game;
     initialized = true;
     return true;
 }
@@ -45,7 +46,7 @@ bool SDLFacade::createWindow(const std::string& title, int width, int height) {
     return true;
 }
 
-void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum) {
+void SDLFacade::render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
@@ -54,10 +55,10 @@ void SDLFacade::render(std::vector<std::shared_ptr<Artist>> artists, std::shared
     float scaleX = static_cast<float>(windowWidth) / 53.0f;
     float scaleY = static_cast<float>(windowHeight) / 53.0f;
 
-    museumManager->renderMuseum(renderer, museum, scaleX, scaleY);
-    artistManager->renderArtists(renderer, artists, scaleX, scaleY);
-    artistManager->moveArtistsRandomly(artists, artistsMoving);
-    artistManager->detectCollisions(artists, museum, scaleX, scaleY, artistsMoving);
+    museumManager->renderMuseum(renderer, gameState->museum, scaleX, scaleY);
+    artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
+    artistManager->moveArtistsRandomly(gameState->artists, artistsMoving);
+    artistManager->detectCollisions(gameState, scaleX, scaleY, artistsMoving);
     overlayManager->renderOverlayMenu(renderer, menuVisible, artistsMoving);
 
     SDL_RenderPresent(renderer);

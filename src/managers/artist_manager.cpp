@@ -38,13 +38,13 @@ void ArtistManager::moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& ar
     }
 }
 
-void ArtistManager::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Museum> museum, float scaleX, float scaleY, bool artistsMoving) {
+void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, float scaleY, bool artistsMoving) {
     if (!artistsMoving) {
         // If artists are not moving, don't perform collision detection
         return;
     }
 
-    for (auto& artist : artists) {
+    for (auto& artist : game->artists) {
         // Calculate the position of the artist on the scaled coordinates
         float artistX = artist->x * scaleX;
         float artistY = artist->y * scaleY;
@@ -56,7 +56,7 @@ void ArtistManager::detectCollisions(std::vector<std::shared_ptr<Artist>>& artis
         // Initialize a flag to track if the artist is currently on a node
         bool artistOnNode = false;
 
-        for (const auto& node : museum->nodes) {
+        for (const auto& node : game->museum->nodes) {
             float nodeX = node->x * scaleX;
             float nodeY = node->y * scaleY;
 
@@ -66,8 +66,8 @@ void ArtistManager::detectCollisions(std::vector<std::shared_ptr<Artist>>& artis
                 if (!artistOnNode) {
                     // Check if the current node is different from the previous node
                     if (nodeX != prevNodeX || nodeY != prevNodeY) {
-                        std::shared_ptr<Node> node = getNode(nodeX, nodeY, museum, scaleX, scaleY);
-                        node->state->handleInteraction(nullptr);
+                        std::shared_ptr<Node> node = getNode(nodeX, nodeY, game->museum, scaleX, scaleY);
+                        node->state->handleInteraction(game);
 
                         // Update the previous node's coordinates
                         prevNodeX = nodeX;

@@ -8,6 +8,7 @@
 #include "managers/museum_manager.hpp"
 #include "managers/artist_manager.hpp"
 #include "managers/overlay_manager.hpp"
+#include "presentation/game.hpp"
 
 class Artist;
 class Museum;
@@ -16,13 +17,14 @@ class SDLFacade {
 public:
     SDLFacade();
     ~SDLFacade();
-    bool init();
+    bool init(std::shared_ptr<Game> game);
     bool createWindow(const std::string& title, int width, int height);
-    void render(std::vector<std::shared_ptr<Artist>> artists, std::shared_ptr<Museum> museum);
+    void render();
     bool handleEvents();
     void handleKeyPress(SDL_Keycode key);
     void cleanup();
 private:
+    std::shared_ptr<Game> gameState = nullptr;
     std::shared_ptr<MuseumManager> museumManager;
     std::shared_ptr<ArtistManager> artistManager;
     std::shared_ptr<OverlayManager> overlayManager;

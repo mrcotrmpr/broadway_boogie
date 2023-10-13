@@ -1,7 +1,8 @@
-#include "presentation/console_ui.hpp"
+#include "presentation/game.hpp"
+#include <iostream>
 
 int main() {
-    ConsoleUI app;
-    app.start();
+    std::shared_ptr<Game> app = std::make_shared<Game>();
+    app->start();
     return 0;
 }

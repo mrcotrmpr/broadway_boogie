@@ -4,11 +4,11 @@
 #include <memory>
 #include <string>
 
-class SDLFacade;
+class Game;
 
 class NodeState {
 public:
-    virtual void handleInteraction(std::shared_ptr<SDLFacade> sdl) = 0;
+    virtual void handleInteraction(std::shared_ptr<Game> game) = 0;
     virtual ~NodeState() = default;
 };
 
