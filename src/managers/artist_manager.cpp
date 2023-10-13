@@ -46,43 +46,49 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
 
     for (auto& artist : game->artists) {
         // Calculate the position of the artist on the scaled coordinates
-        float artistX = artist->x * scaleX;
-        float artistY = artist->y * scaleY;
+        if (artist) {
+            float artistX = artist->x * scaleX;
+            float artistY = artist->y * scaleY;
 
-        // Initialize variables to keep track of the previous node's coordinates
-        static float prevNodeX = -1.0f;
-        static float prevNodeY = -1.0f;
+            // Initialize variables to keep track of the previous node's coordinates
+            static float prevNodeX = -1.0f;
+            static float prevNodeY = -1.0f;
 
-        // Initialize a flag to track if the artist is currently on a node
-        bool artistOnNode = false;
+            // Initialize a flag to track if the artist is currently on a node
+            bool artistOnNode = false;
 
-        for (const auto& node : game->museum->nodes) {
-            float nodeX = node->x * scaleX;
-            float nodeY = node->y * scaleY;
+            for (const auto& node : game->museum->nodes) {
+                float nodeX = node->x * scaleX;
+                float nodeY = node->y * scaleY;
 
-            // Check if the artist's position is within the bounds of the node
-            if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
-                // Check if the artist is not already on a node
-                if (!artistOnNode) {
-                    // Check if the current node is different from the previous node
-                    if (nodeX != prevNodeX || nodeY != prevNodeY) {
-                        std::shared_ptr<Node> node = game->getNode(nodeX, nodeY, scaleX, scaleY);
-                        std::shared_ptr<Artist> artist = game->getArtist(artistX, artistY, scaleX, scaleY);
-                        node->state->handleInteraction(game, node, artist);
+                // Check if the artist's position is within the bounds of the node
+                if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
+                    // Check if the artist is not already on a node
+                    if (!artistOnNode) {
+                        // Check if the current node is different from the previous node
+                        if (nodeX != prevNodeX || nodeY != prevNodeY) {
+                            std::shared_ptr<Node> node = game->getNode(nodeX, nodeY, scaleX, scaleY);
+                            std::shared_ptr<Artist> artist = game->getArtist(artistX, artistY, scaleX, scaleY);
 
-                        // Update the previous node's coordinates
-                        prevNodeX = nodeX;
-                        prevNodeY = nodeY;
+                            if (node != nullptr && artist != nullptr) {
+                                node->state->handleInteraction(game, node, artist);
+                            }
+
+                            // Update the previous node's coordinates
+                            prevNodeX = nodeX;
+                            prevNodeY = nodeY;
+                        }
                     }
-                }
 
-                // Set the flag to indicate that the artist is on a node
-                artistOnNode = true;
+                    // Set the flag to indicate that the artist is on a node
+                    artistOnNode = true;
+                }
+                else {
+                    // Artist is not on this node
+                    artistOnNode = false;
+                }
             }
-            else {
-                // Artist is not on this node
-                artistOnNode = false;
-            }
+        
         }
     }
 }

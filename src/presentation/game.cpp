@@ -195,9 +195,19 @@ std::shared_ptr<Artist> Game::getArtist(float x, float y, float scaleX, float sc
         float scaledNodeX = artist->x * scaleX;
         float scaledNodeY = artist->y * scaleY;
 
-        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
+        if (x >= scaledNodeX && x <= scaledNodeX + 7 && y >= scaledNodeY && y <= scaledNodeY + 7) {
             return artist;
         }
     }
     return nullptr;
+}
+
+void Game::removeArtist(std::shared_ptr<Artist> artist) {
+    auto it = std::find(artists.begin(), artists.end(), artist);
+    if (it != artists.end()) {
+        artists.erase(it);
+    }
+    else {
+        std::cout << "Artist not found." << std::endl;
+    }
 }

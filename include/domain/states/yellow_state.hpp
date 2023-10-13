@@ -2,7 +2,6 @@
 #define YELLOW_STATE_HPP
 
 #include "node_state.hpp"
-#include "factories/artist_factory.hpp"
 
 class YellowState : public NodeState {
 public:

@@ -10,12 +10,12 @@ void BlueState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<No
     for (const auto& otherNode : game->museum->nodes) {
         if ((otherNode->x == node->x && (otherNode->y == node->y - 1 || otherNode->y == node->y + 1)) ||
             (otherNode->y == node->y && (otherNode->x == node->x - 1 || otherNode->x == node->x + 1))) {
-            otherNode->tag = 'B'; // Set color to blue
+            otherNode->tag = 'B'; // Change node to blue
             otherNode->state = std::make_shared<BlueState>();
         }
     }
 
-    // Change node color to yellow
+    // Change node to yellow
     node->tag = 'Y';
     node->state = std::make_shared<YellowState>();
 }
