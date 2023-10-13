@@ -8,7 +8,7 @@ class Game;
 
 class NodeState {
 public:
-    virtual void handleInteraction(std::shared_ptr<Game> game) = 0;
+    virtual void handleInteraction(std::shared_ptr<Game> game, float nodeX, float nodeY, float artistX, float artistY) = 0;
     virtual ~NodeState() = default;
 };
 

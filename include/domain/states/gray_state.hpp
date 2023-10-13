@@ -5,7 +5,7 @@
 
 class GrayState : public NodeState {
 public:
-    void handleInteraction(std::shared_ptr<Game> game) override;
+    void handleInteraction(std::shared_ptr<Game> game, float nodeX, float nodeY, float artistX, float artistY) override;
 };
 
 #endif // GRAY_STATE_HPP

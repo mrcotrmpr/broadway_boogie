@@ -67,7 +67,7 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                     // Check if the current node is different from the previous node
                     if (nodeX != prevNodeX || nodeY != prevNodeY) {
                         std::shared_ptr<Node> node = getNode(nodeX, nodeY, game->museum, scaleX, scaleY);
-                        node->state->handleInteraction(game);
+                        node->state->handleInteraction(game, nodeX, nodeY, artistX, artistY);
 
                         // Update the previous node's coordinates
                         prevNodeX = nodeX;

@@ -5,7 +5,7 @@
 
 class BlueState : public NodeState {
 public:
-    void handleInteraction(std::shared_ptr<Game> game) override;
+    void handleInteraction(std::shared_ptr<Game> game, float nodeX, float nodeY, float artistX, float artistY) override;
 };
 
 #endif // BLUE_STATE_HPP
