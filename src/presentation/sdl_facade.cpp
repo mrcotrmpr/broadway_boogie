@@ -1,5 +1,10 @@
 #include "presentation/sdl_facade.hpp"
+#include "domain/states/blue_state.hpp"
+#include "domain/states/red_state.hpp"
+#include "domain/states/yellow_state.hpp"
+#include "domain/states/gray_state.hpp"
 #include <iostream>
+#include <utility>
 #include <unordered_map>
 #include <cstdlib>
 
@@ -103,6 +108,18 @@ void SDLFacade::renderMuseum(std::shared_ptr<Museum> museum, float scaleX, float
 
         if (nodeTypeIt != nodeTypeMap.end()) {
             SDL_SetRenderDrawColor(renderer, nodeTypeIt->second->red, nodeTypeIt->second->green, nodeTypeIt->second->blue, 255);
+            if (node->tag == 'R') {
+                node->state = std::make_unique<RedState>();
+            }
+            else if (node->tag == 'B') {
+                node->state = std::make_unique<BlueState>();
+            }
+            else if (node->tag == 'Y') {
+                node->state = std::make_unique<YellowState>();
+            }
+            else if (node->tag == 'G') {
+                node->state = std::make_unique<GrayState>();
+            }
         }
         else {
             SDL_SetRenderDrawColor(renderer, 128, 0, 128, 255); // Default to purple if node type not found
@@ -195,28 +212,9 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
                 if (!artistOnNode) {
                     // Check if the current node is different from the previous node
                     if (nodeX != prevNodeX || nodeY != prevNodeY) {
-                        char nodeTag = getNodeTag(nodeX, nodeY, museum, scaleX, scaleY);
-                        std::cout << "Artist passed over a node with color: ";
-
-                        switch (nodeTag) {
-                        case 'R':
-                            std::cout << "red";
-                            break;
-                        case 'B':
-                            std::cout << "blue";
-                            break;
-                        case 'Y':
-                            std::cout << "yellow";
-                            break;
-                        case 'G':
-                            std::cout << "gray";
-                            break;
-                        default:
-                            std::cout << "unknown";
-                            break;
-                        }
-
-                        std::cout << std::endl;
+                        std::shared_ptr<Node> node = getNode(nodeX, nodeY, museum, scaleX, scaleY);
+                        
+                        node->state->handleInteraction(nullptr);
 
                         // Update the previous node's coordinates
                         prevNodeX = nodeX;
@@ -235,16 +233,16 @@ void SDLFacade::detectCollisions(std::vector<std::shared_ptr<Artist>>& artists, 
     }
 }
 
-char SDLFacade::getNodeTag(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
+std::shared_ptr<Node> SDLFacade::getNode(float x, float y, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
     for (const auto& node : museum->nodes) {
         float scaledNodeX = node->x * scaleX;
         float scaledNodeY = node->y * scaleY;
 
         if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
-            return node->tag;
+            return node;
         }
     }
-    return 'W'; // Default to white if no node is found
+    return nullptr;
 }
 
 bool SDLFacade::handleEvents() {
