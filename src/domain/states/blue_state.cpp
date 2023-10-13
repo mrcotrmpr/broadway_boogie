@@ -1,6 +1,7 @@
 #include "domain/node.hpp"
 #include "domain/artist.hpp"
 #include "domain/states/blue_state.hpp"
+#include "domain/states/yellow_state.hpp"
 #include "presentation/game.hpp"
 #include <iostream>
 
@@ -10,9 +11,11 @@ void BlueState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<No
         if ((otherNode->x == node->x && (otherNode->y == node->y - 1 || otherNode->y == node->y + 1)) ||
             (otherNode->y == node->y && (otherNode->x == node->x - 1 || otherNode->x == node->x + 1))) {
             otherNode->tag = 'B'; // Set color to blue
+            otherNode->state = std::make_shared<BlueState>();
         }
     }
 
-    // Change node color to blue
+    // Change node color to yellow
     node->tag = 'Y';
+    node->state = std::make_shared<YellowState>();
 }
