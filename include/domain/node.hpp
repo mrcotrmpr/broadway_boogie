@@ -14,7 +14,7 @@ public:
     int x;
     int y;
     std::vector<std::shared_ptr<Edge>> edges;
-    std::shared_ptr<NodeState> state = nullptr;
+    std::shared_ptr<NodeState> state;
 };
 
 #endif // NODE_HPP

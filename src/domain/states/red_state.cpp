@@ -5,7 +5,15 @@
 #include <iostream>
 
 void RedState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<Node> node, std::shared_ptr<Artist> artist) {
-    std::cout << "Handle red state" << std::endl;
-    std::cout << "Node tag: " << node->tag << std::endl;
-    std::cout << "Artist x & y: " << artist->x << ", " << artist->y << std::endl;
+    // Remove artist from the game
+    auto it = std::find(game->artists.begin(), game->artists.end(), artist);
+    if (it != game->artists.end()) {
+        game->artists.erase(it);
+    }
+    else {
+        std::cout << "[RED STATE] Artist not found." << std::endl;
+    }
+
+    // Change node color to blue
+    node->tag = 'B';
 }
