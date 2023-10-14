@@ -18,8 +18,8 @@ void YellowState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<
 		node->interactions++;
 
 		// Create new artist
-		float x = artist->x;
-		float y = artist->y;
+		float x = node->x;
+		float y = node->y;
 		float vx = 0;
 		float vy = 0;
 

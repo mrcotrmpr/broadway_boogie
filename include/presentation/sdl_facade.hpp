@@ -23,6 +23,10 @@ public:
     bool handleEvents();
     void handleKeyPress(SDL_Keycode key);
     void cleanup();
+    int windowWidth = 800;
+    int windowHeight = 800;
+    float scaleX = static_cast<float>(windowWidth) / 53.0f;
+    float scaleY = static_cast<float>(windowHeight) / 53.0f;
 private:
     std::shared_ptr<Game> gameState = nullptr;
     std::shared_ptr<MuseumManager> museumManager;

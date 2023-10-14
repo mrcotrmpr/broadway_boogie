@@ -7,7 +7,9 @@
 
 void RedState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<Node> node, std::shared_ptr<Artist> artist) {
 	// Remove artist
-	game->removeArtist(artist);
+	if (artist) {
+		game->removeArtist(artist);
+	}
 
 	// Change node to blue
 	node->tag = 'B';

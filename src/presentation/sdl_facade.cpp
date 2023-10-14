@@ -50,11 +50,6 @@ void SDLFacade::render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    int windowWidth = 800;
-    int windowHeight = 800;
-    float scaleX = static_cast<float>(windowWidth) / 53.0f;
-    float scaleY = static_cast<float>(windowHeight) / 53.0f;
-
     museumManager->renderMuseum(renderer, gameState->museum, scaleX, scaleY);
     artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
     artistManager->moveArtistsRandomly(gameState->artists, artistsMoving);
@@ -86,6 +81,14 @@ void SDLFacade::handleKeyPress(SDL_Keycode key) {
     case SDLK_m:
         // Toggle the menuVisible flag when the 'M' key is pressed
         menuVisible = !menuVisible;
+        break;
+    case SDLK_RETURN:
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        std::shared_ptr<Node> currentNode = gameState->getNode(x, y, scaleX, scaleY);
+        if (currentNode) {
+            currentNode->state->handleInteraction(gameState, currentNode, nullptr);
+        }
         break;
     }
 }
