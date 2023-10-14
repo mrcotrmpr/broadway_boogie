@@ -75,7 +75,10 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                             node->state->handleInteraction(game, node, artist);
 
                             // Update the last node for the artist
-                            artist->lastNode = node;
+                            auto it = std::find(game->artists.begin(), game->artists.end(), artist);
+                            if (it != game->artists.end()) {
+                                artist->lastNode = node;
+                            }
                         }
                     }
 
