@@ -2,7 +2,6 @@
 #include "domain/artist.hpp"
 #include "domain/states/blue_state.hpp"
 #include "domain/states/yellow_state.hpp"
-#include "domain/states/gray_state.hpp" // temp
 #include "presentation/game.hpp"
 #include <iostream>
 
@@ -29,7 +28,7 @@ void BlueState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<No
         }
     }
 
-    // Change node to gray (temp)
-    node->tag = 'G';
-    node->state = std::make_shared<GrayState>();
+    // Change node to yellow
+    node->tag = 'Y';
+    node->state = std::make_shared<YellowState>();
 }

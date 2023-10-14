@@ -195,7 +195,7 @@ std::shared_ptr<Artist> Game::getArtist(float x, float y, float scaleX, float sc
         float scaledNodeX = artist->x * scaleX;
         float scaledNodeY = artist->y * scaleY;
 
-        if (x >= scaledNodeX && x <= scaledNodeX + 7 && y >= scaledNodeY && y <= scaledNodeY + 7) {
+        if (x >= scaledNodeX && x <= scaledNodeX + 14 && y >= scaledNodeY && y <= scaledNodeY + 14) {
             return artist;
         }
     }

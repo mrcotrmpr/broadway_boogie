@@ -55,16 +55,11 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
 
     for (auto& artist : game->artists) {
         if (artist) {
-        
             // Calculate the position of the artist on the scaled coordinates
             float artistX = artist->x * scaleX;
             float artistY = artist->y * scaleY;
 
-            // Initialize variables to keep track of the previous node's coordinates
-            static float prevNodeX = -1.0f;
-            static float prevNodeY = -1.0f;
-
-            // Initialize a flag to track if the artist is currently on a node
+            // Check if the artist is currently on a node
             bool artistOnNode = false;
 
             for (const auto& node : game->museum->nodes) {
@@ -75,18 +70,12 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                 if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
                     // Check if the artist is not already on a node
                     if (!artistOnNode) {
-                        // Check if the current node is different from the previous node
-                        if (nodeX != prevNodeX || nodeY != prevNodeY) {
-                            std::shared_ptr<Node> node = game->getNode(nodeX, nodeY, scaleX, scaleY);
-                            std::shared_ptr<Artist> artist = game->getArtist(artistX, artistY, scaleX, scaleY);
+                        // Check if the current node is different from the last node
+                        if (node != artist->lastNode) {
+                            node->state->handleInteraction(game, node, artist);
 
-                            if (node != nullptr && artist != nullptr) {
-                                node->state->handleInteraction(game, node, artist);
-                            }
-
-                            // Update the previous node's coordinates
-                            prevNodeX = nodeX;
-                            prevNodeY = nodeY;
+                            // Update the last node for the artist
+                            artist->lastNode = node;
                         }
                     }
 
@@ -98,9 +87,10 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                     artistOnNode = false;
                 }
             }
-        
         }
     }
+
     game->artists.insert(game->artists.end(), game->newArtists.begin(), game->newArtists.end());
     game->newArtists.clear(); // Clear the newArtists vector for the next iteration
 }
+
