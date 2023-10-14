@@ -50,10 +50,16 @@ void SDLFacade::render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    museumManager->renderMuseum(renderer, gameState->museum, scaleX, scaleY);
-    artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
-    artistManager->moveArtistsRandomly(gameState->artists, artistsMoving);
-    artistManager->detectCollisions(gameState, scaleX, scaleY, artistsMoving);
+    if (gameState->museum) {
+        museumManager->renderMuseum(renderer, gameState->museum, scaleX, scaleY);
+    }
+
+    if (!gameState->artists.empty()) {
+        artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
+        artistManager->moveArtistsRandomly(gameState->artists, artistsMoving);
+        artistManager->detectCollisions(gameState, scaleX, scaleY, artistsMoving);
+    }
+
     overlayManager->renderOverlayMenu(renderer, menuVisible, artistsMoving);
 
     SDL_RenderPresent(renderer);
@@ -74,12 +80,21 @@ bool SDLFacade::handleEvents() {
 
 void SDLFacade::handleKeyPress(SDL_Keycode key) {
     switch (key) {
+    case SDLK_o:
+        gameState->museum = museumManager->loadMuseum();
+        break;
+    case SDLK_a:
+        if (gameState->artists.empty()) {
+            gameState->artists = artistManager->loadArtists();
+        }
+        else {
+            gameState->artists.clear();
+        }
+        break;
     case SDLK_SPACE:
-        // Toggle the artistsMoving flag when the SPACE key is pressed
         artistsMoving = !artistsMoving;
         break;
     case SDLK_m:
-        // Toggle the menuVisible flag when the 'M' key is pressed
         menuVisible = !menuVisible;
         break;
     case SDLK_RETURN:

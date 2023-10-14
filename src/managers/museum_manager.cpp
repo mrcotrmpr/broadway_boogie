@@ -4,6 +4,15 @@
 #include "domain/states/yellow_state.hpp"
 #include "domain/states/gray_state.hpp"
 
+std::shared_ptr<Museum> MuseumManager::loadMuseum()
+{
+    const std::string xml_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\graph.xml";
+    const std::string xml_url = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media";
+
+    std::string xml_content = webReader.read(xml_url);
+    return xmlParser.parse(xml_content);
+}
+
 void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
     std::unordered_map<char, std::shared_ptr<NodeType>> nodeTypeMap;
     for (auto type : museum->nodeTypes) {
