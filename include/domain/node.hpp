@@ -13,6 +13,7 @@ public:
     char tag;
     int x;
     int y;
+    int interactions = 0;
     std::vector<std::shared_ptr<Edge>> edges;
     std::shared_ptr<NodeState> state;
 };
