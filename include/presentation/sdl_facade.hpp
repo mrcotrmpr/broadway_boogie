@@ -2,6 +2,7 @@
 #define SDL_FACADE_HPP
 
 #include <SDL.h>
+#include <unordered_map>
 #include <string>
 #include "domain/artist.hpp"
 #include "domain/museum.hpp"
@@ -9,6 +10,12 @@
 #include "managers/artist_manager.hpp"
 #include "managers/overlay_manager.hpp"
 #include "presentation/game.hpp"
+#include "presentation/commands/command.hpp"
+#include "presentation/commands/load_museum_command.hpp"
+#include "presentation/commands/load_artist_command.hpp"
+#include "presentation/commands/toggle_artist_moving_command.hpp"
+#include "presentation/commands/toggle_menu_visible_command.hpp"
+#include "presentation/commands/handle_node_interaction_command.hpp"
 
 class Artist;
 class Museum;
@@ -23,11 +30,9 @@ public:
     bool handleEvents();
     void handleKeyPress(SDL_Keycode key);
     void cleanup();
-    int windowWidth = 800;
-    int windowHeight = 800;
-    float scaleX = static_cast<float>(windowWidth) / 53.0f;
-    float scaleY = static_cast<float>(windowHeight) / 53.0f;
+    void registerCommand(SDL_Keycode key, std::shared_ptr<Command> command);
 private:
+    std::unordered_map<SDL_Keycode, std::shared_ptr<Command>> commandMap;
     std::shared_ptr<Game> gameState = nullptr;
     std::shared_ptr<MuseumManager> museumManager;
     std::shared_ptr<ArtistManager> artistManager;

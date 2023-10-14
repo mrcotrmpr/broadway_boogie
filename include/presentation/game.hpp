@@ -21,6 +21,10 @@ public:
 	std::shared_ptr<SDLFacade> sdl;
 	bool artistsMoving = false;
 	bool menuVisible = false;
+	int windowWidth = 800;
+	int windowHeight = 800;
+	float scaleX = static_cast<float>(windowWidth) / 53.0f;
+	float scaleY = static_cast<float>(windowHeight) / 53.0f;
 };
 
 #endif // GAME_HPP

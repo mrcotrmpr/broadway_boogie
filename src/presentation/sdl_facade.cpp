@@ -6,9 +6,24 @@
 
 SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) 
 {
+    // Instantiate managers
     museumManager = std::make_shared<MuseumManager>();
     artistManager = std::make_shared<ArtistManager>();
     overlayManager = std::make_shared<OverlayManager>();
+
+    // Create instances of the commands and register them
+    auto loadMuseumCommand = std::make_shared<LoadMuseumCommand>();
+    auto loadArtistCommand = std::make_shared<LoadArtistCommand>();
+    auto toggleArtistMovingCommand = std::make_shared<ToggleArtistsMovingCommand>();
+    auto toggleMenuVisibleCommand = std::make_shared<ToggleMenuVisibleCommand>();
+    auto handleNodeInteractionCommand = std::make_shared<HandleNodeInteractionCommand>();
+
+    // Register the commands with their respective keys
+    registerCommand(SDLK_o, loadMuseumCommand);
+    registerCommand(SDLK_a, loadArtistCommand);
+    registerCommand(SDLK_SPACE, toggleArtistMovingCommand);
+    registerCommand(SDLK_m, toggleMenuVisibleCommand);
+    registerCommand(SDLK_RETURN, handleNodeInteractionCommand);
 }
 
 SDLFacade::~SDLFacade() {
@@ -51,13 +66,13 @@ void SDLFacade::render() {
     SDL_RenderClear(renderer);
 
     if (gameState->museum) {
-        museumManager->renderMuseum(renderer, gameState->museum, scaleX, scaleY);
+        museumManager->renderMuseum(renderer, gameState->museum, gameState->scaleX, gameState->scaleY);
     }
 
     if (!gameState->artists.empty()) {
-        artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
+        artistManager->renderArtists(renderer, gameState->artists, gameState->scaleX, gameState->scaleY);
         artistManager->moveArtistsRandomly(gameState->artists, gameState->artistsMoving);
-        artistManager->detectCollisions(gameState, scaleX, scaleY, gameState->artistsMoving);
+        artistManager->detectCollisions(gameState, gameState->scaleX, gameState->scaleY, gameState->artistsMoving);
     }
 
     overlayManager->renderOverlayMenu(renderer, gameState->menuVisible, gameState->artistsMoving);
@@ -79,34 +94,9 @@ bool SDLFacade::handleEvents() {
 }
 
 void SDLFacade::handleKeyPress(SDL_Keycode key) {
-    switch (key) {
-    case SDLK_o:
-        if (!gameState->museum) {
-            gameState->museum = museumManager->loadMuseum();
-        }
-        break;
-    case SDLK_a:
-        if (gameState->artists.empty()) {
-            gameState->artists = artistManager->loadArtists();
-        }
-        else {
-            gameState->artists.clear();
-        }
-        break;
-    case SDLK_SPACE:
-        gameState->artistsMoving = !gameState->artistsMoving;
-        break;
-    case SDLK_m:
-        gameState->menuVisible = !gameState->menuVisible;
-        break;
-    case SDLK_RETURN:
-        int x, y;
-        SDL_GetMouseState(&x, &y);
-        std::shared_ptr<Node> currentNode = gameState->getNode(x, y, scaleX, scaleY);
-        if (currentNode) {
-            currentNode->state->handleInteraction(gameState, currentNode, nullptr);
-        }
-        break;
+    auto it = commandMap.find(key);
+    if (it != commandMap.end()) {
+        it->second->execute(gameState, museumManager, artistManager);
     }
 }
 
@@ -120,4 +110,8 @@ void SDLFacade::cleanup() {
     if (initialized) {
         SDL_Quit();
     }
+}
+
+void SDLFacade::registerCommand(SDL_Keycode key, std::shared_ptr<Command> command) {
+    commandMap[key] = command;
 }
