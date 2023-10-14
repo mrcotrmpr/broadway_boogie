@@ -35,8 +35,6 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;
-    bool artistsMoving = false;
-    bool menuVisible = false;
 };
 
 #endif // SDL_FACADE_HPP

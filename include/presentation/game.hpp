@@ -19,6 +19,8 @@ public:
 	std::vector<std::shared_ptr<Artist>> newArtists;
 	std::shared_ptr<Museum> museum;
 	std::shared_ptr<SDLFacade> sdl;
+	bool artistsMoving = false;
+	bool menuVisible = false;
 };
 
 #endif // GAME_HPP

@@ -56,11 +56,11 @@ void SDLFacade::render() {
 
     if (!gameState->artists.empty()) {
         artistManager->renderArtists(renderer, gameState->artists, scaleX, scaleY);
-        artistManager->moveArtistsRandomly(gameState->artists, artistsMoving);
-        artistManager->detectCollisions(gameState, scaleX, scaleY, artistsMoving);
+        artistManager->moveArtistsRandomly(gameState->artists, gameState->artistsMoving);
+        artistManager->detectCollisions(gameState, scaleX, scaleY, gameState->artistsMoving);
     }
 
-    overlayManager->renderOverlayMenu(renderer, menuVisible, artistsMoving);
+    overlayManager->renderOverlayMenu(renderer, gameState->menuVisible, gameState->artistsMoving);
 
     SDL_RenderPresent(renderer);
 }
@@ -81,7 +81,9 @@ bool SDLFacade::handleEvents() {
 void SDLFacade::handleKeyPress(SDL_Keycode key) {
     switch (key) {
     case SDLK_o:
-        gameState->museum = museumManager->loadMuseum();
+        if (!gameState->museum) {
+            gameState->museum = museumManager->loadMuseum();
+        }
         break;
     case SDLK_a:
         if (gameState->artists.empty()) {
@@ -92,10 +94,10 @@ void SDLFacade::handleKeyPress(SDL_Keycode key) {
         }
         break;
     case SDLK_SPACE:
-        artistsMoving = !artistsMoving;
+        gameState->artistsMoving = !gameState->artistsMoving;
         break;
     case SDLK_m:
-        menuVisible = !menuVisible;
+        gameState->menuVisible = !gameState->menuVisible;
         break;
     case SDLK_RETURN:
         int x, y;
