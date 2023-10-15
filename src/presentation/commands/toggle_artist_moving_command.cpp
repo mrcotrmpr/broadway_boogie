@@ -6,5 +6,7 @@
 
 void ToggleArtistsMovingCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager)
 {
-	game->artistsMoving = !game->artistsMoving;
+	if (game->atPresent) {
+		game->artistsMoving = !game->artistsMoving;
+	}
 }

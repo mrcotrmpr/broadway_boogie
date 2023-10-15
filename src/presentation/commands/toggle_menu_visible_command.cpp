@@ -6,5 +6,7 @@
 
 void ToggleMenuVisibleCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager)
 {
-	game->menuVisible = !game->menuVisible;
+	if (game->atPresent) {
+		game->menuVisible = !game->menuVisible;
+	}
 }

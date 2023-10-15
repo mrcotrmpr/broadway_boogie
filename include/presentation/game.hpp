@@ -5,6 +5,7 @@
 #include "domain/museum.hpp"
 #include "domain/artist.hpp"
 #include "domain/node.hpp"
+#include "memento/game_state_memento.hpp"
 #include "memory"
 
 class SDLFacade;
@@ -15,14 +16,18 @@ public:
 	void removeArtist(std::shared_ptr<Artist> artist);
 	std::shared_ptr<Node> getNode(float x, float y, float scaleX, float scaleY);
 	std::shared_ptr<Artist> getArtist(float x, float y, float scaleX, float scaleY);
+	std::shared_ptr<GameStateMemento> createMemento();
+	void restoreMemento(std::shared_ptr<GameStateMemento> memento);
 	std::vector<std::shared_ptr<Artist>> artists;
 	std::vector<std::shared_ptr<Artist>> newArtists;
 	std::shared_ptr<Museum> museum;
 	std::shared_ptr<SDLFacade> sdl;
 	bool artistsMoving = false;
 	bool menuVisible = false;
+	bool atPresent = true;
 	int windowWidth = 800;
 	int windowHeight = 800;
+	int currentMementoIndex = -1;
 	float scaleX = static_cast<float>(windowWidth) / 53.0f;
 	float scaleY = static_cast<float>(windowHeight) / 53.0f;
 };

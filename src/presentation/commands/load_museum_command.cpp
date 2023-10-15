@@ -6,7 +6,9 @@
 
 void LoadMuseumCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager)
 {
-    if (!game->museum) {
-        game->museum = museumManager->loadMuseum();
+    if (game->atPresent) {
+        if (!game->museum) {
+            game->museum = museumManager->loadMuseum();
+        }
     }
 }

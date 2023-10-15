@@ -10,6 +10,7 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     museumManager = std::make_shared<MuseumManager>();
     artistManager = std::make_shared<ArtistManager>();
     overlayManager = std::make_shared<OverlayManager>();
+    mementoManager = std::make_shared<Caretaker>();
 
     // Create instances of the commands and register them
     auto loadMuseumCommand = std::make_shared<LoadMuseumCommand>();
@@ -17,6 +18,8 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     auto toggleArtistMovingCommand = std::make_shared<ToggleArtistsMovingCommand>();
     auto toggleMenuVisibleCommand = std::make_shared<ToggleMenuVisibleCommand>();
     auto handleNodeInteractionCommand = std::make_shared<HandleNodeInteractionCommand>();
+    auto goForwardCommand = std::make_shared<GoForwardCommand>();
+    auto goBackCommand = std::make_shared<GoBackCommand>();
 
     // Register the commands with their respective keys
     registerCommand(SDLK_o, loadMuseumCommand);
@@ -24,6 +27,8 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     registerCommand(SDLK_SPACE, toggleArtistMovingCommand);
     registerCommand(SDLK_m, toggleMenuVisibleCommand);
     registerCommand(SDLK_RETURN, handleNodeInteractionCommand);
+    registerCommand(SDLK_LEFT, goBackCommand);
+    registerCommand(SDLK_RIGHT, goForwardCommand);
 }
 
 SDLFacade::~SDLFacade() {
@@ -62,6 +67,17 @@ bool SDLFacade::createWindow(const std::string& title, int width, int height) {
 }
 
 void SDLFacade::render() {
+
+    if (gameState->atPresent)
+    {
+        tickCounter++;
+        if (tickCounter == 10) {
+            std::cout << "Memento saved!" << std::endl;
+            mementoManager->addMemento(gameState->createMemento());
+            tickCounter = 0;
+        }
+    }
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
@@ -71,6 +87,9 @@ void SDLFacade::render() {
 
     if (!gameState->artists.empty()) {
         artistManager->renderArtists(renderer, gameState->artists, gameState->scaleX, gameState->scaleY);
+    }
+
+    if (gameState->atPresent) {
         artistManager->moveArtistsRandomly(gameState->artists, gameState->artistsMoving);
         artistManager->detectCollisions(gameState, gameState->scaleX, gameState->scaleY, gameState->artistsMoving);
     }
