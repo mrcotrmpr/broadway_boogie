@@ -10,12 +10,11 @@ void GoForwardCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<Museu
         game->currentMementoIndex = game->sdl->mementoManager->getMementosCount() - 1;
     }
 
-    std::cout << "Current index: " << game->currentMementoIndex << "/" << game->sdl->mementoManager->getMementosCount() - 1 << std::endl;
-
     int currentMementoIndex = game->currentMementoIndex;
     if (currentMementoIndex < game->sdl->mementoManager->getMementosCount() - 1) {
         auto memento = game->sdl->mementoManager->getMemento(currentMementoIndex + 1);
         game->currentMementoIndex = currentMementoIndex + 1;
+        std::cout << "Current index: " << game->currentMementoIndex << "/" << game->sdl->mementoManager->getMementosCount() - 1 << std::endl;
         game->restoreMemento(memento);
         game->sdl->render();
     }
