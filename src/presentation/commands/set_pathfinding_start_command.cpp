@@ -1,7 +1,7 @@
 #include "presentation/commands/set_pathfinding_start_command.hpp"
 #include <iostream>
 
-void SetPathFindingStartCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager)
+void SetPathFindingStartCommand::execute(std::shared_ptr<Game> game)
 {
     int x, y;
     SDL_GetMouseState(&x, &y);

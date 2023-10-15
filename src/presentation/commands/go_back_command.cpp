@@ -1,11 +1,9 @@
 #include "presentation/commands/go_back_command.hpp"
 #include "presentation/sdl_facade.hpp"
-#include "managers/museum_manager.hpp"
-#include "managers/artist_manager.hpp"
 #include "presentation/game.hpp"
 #include <iostream>
 
-void GoBackCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager) {
+void GoBackCommand::execute(std::shared_ptr<Game> game) {
     game->atPresent = false;
 
     if (game->currentMementoIndex == -1) {

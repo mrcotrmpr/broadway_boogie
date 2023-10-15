@@ -9,7 +9,7 @@ class ArtistManager;
 
 class Command {
 public:
-    virtual void execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager) = 0;
+    virtual void execute(std::shared_ptr<Game> game) = 0;
     virtual ~Command() = default;
 };
 

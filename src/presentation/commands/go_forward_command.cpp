@@ -1,11 +1,9 @@
 #include "presentation/commands/go_forward_command.hpp"
 #include "presentation/sdl_facade.hpp"
-#include "managers/museum_manager.hpp"
-#include "managers/artist_manager.hpp"
 #include "presentation/game.hpp"
 #include <iostream>
 
-void GoForwardCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager) {
+void GoForwardCommand::execute(std::shared_ptr<Game> game) {
     if (game->currentMementoIndex == -1) {
         game->currentMementoIndex = game->sdl->mementoManager->getMementosCount() - 1;
     }

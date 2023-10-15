@@ -1,10 +1,8 @@
 #include "presentation/commands/handle_node_interaction_command.hpp"
-#include "managers/museum_manager.hpp"
-#include "managers/artist_manager.hpp"
 #include "presentation/game.hpp"
 #include <iostream>
 
-void HandleNodeInteractionCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager)
+void HandleNodeInteractionCommand::execute(std::shared_ptr<Game> game)
 {
     if (game->atPresent) {
         int x, y;

@@ -7,7 +7,7 @@
 
 class SetPathFindingStartCommand : public Command {
 public:
-    void execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager) override;
+    void execute(std::shared_ptr<Game> game) override;
 };
 
 #endif // SET_PATH_FINDING_START_COMMAND_HPP
