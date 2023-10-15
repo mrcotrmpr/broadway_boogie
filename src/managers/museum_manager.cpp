@@ -49,6 +49,17 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
         nodeRect.h = 14;
         SDL_RenderFillRect(renderer, &nodeRect);
 
+        // Pathfinding
+        if (node->visited == 'X') {
+            SDL_Rect blackSquare;
+            blackSquare.w = 4;
+            blackSquare.h = 4;
+            blackSquare.x = static_cast<int>(node->x * scaleX) + 6;
+            blackSquare.y = static_cast<int>(node->y * scaleY) + 6;
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderFillRect(renderer, &blackSquare);
+        }
+
         // Draw edges
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         for (const auto& edge : node->edges) {

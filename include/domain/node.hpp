@@ -14,6 +14,7 @@ public:
     Node() = default;
     Node(char tag, int x, int y);
     char tag;
+    char visited;
     int x;
     int y;
     int interactions = 0;
