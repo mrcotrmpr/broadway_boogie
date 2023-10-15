@@ -20,6 +20,8 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     auto handleNodeInteractionCommand = std::make_shared<HandleNodeInteractionCommand>();
     auto goForwardCommand = std::make_shared<GoForwardCommand>();
     auto goBackCommand = std::make_shared<GoBackCommand>();
+    auto setPathFindingStartCommand = std::make_shared<SetPathFindingStartCommand>();
+    auto setPathFindingEndCommand = std::make_shared<SetPathFindingEndCommand>();
 
     // Register the commands with their respective keys
     registerCommand(SDLK_o, loadMuseumCommand);
@@ -29,6 +31,8 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     registerCommand(SDLK_RETURN, handleNodeInteractionCommand);
     registerCommand(SDLK_LEFT, goBackCommand);
     registerCommand(SDLK_RIGHT, goForwardCommand);
+    registerCommand(SDL_BUTTON_LEFT, setPathFindingStartCommand);
+    registerCommand(SDL_BUTTON_RIGHT, setPathFindingEndCommand);
 }
 
 SDLFacade::~SDLFacade() {
@@ -72,7 +76,6 @@ void SDLFacade::render() {
     {
         tickCounter++;
         if (tickCounter == 10) {
-            std::cout << "Memento saved!" << std::endl;
             mementoManager->addMemento(gameState->createMemento());
             tickCounter = 0;
         }
@@ -107,6 +110,9 @@ bool SDLFacade::handleEvents() {
         }
         else if (event.type == SDL_KEYDOWN) {
             handleKeyPress(event.key.keysym.sym);
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            handleKeyPress(event.button.button);
         }
     }
     return true;

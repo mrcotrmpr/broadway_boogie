@@ -19,6 +19,8 @@
 #include "presentation/commands/handle_node_interaction_command.hpp"
 #include "presentation/commands/go_forward_command.hpp"
 #include "presentation/commands/go_back_command.hpp"
+#include "presentation/commands/set_pathfinding_start_command.hpp"
+#include "presentation/commands/set_pathfinding_end_command.hpp"
 
 class Artist;
 class Museum;

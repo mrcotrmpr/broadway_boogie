@@ -22,6 +22,8 @@ public:
 	std::vector<std::shared_ptr<Artist>> newArtists;
 	std::shared_ptr<Museum> museum;
 	std::shared_ptr<SDLFacade> sdl;
+	std::shared_ptr<Node> pathFindingStart;
+	std::shared_ptr<Node> pathFindingEnd;
 	bool artistsMoving = false;
 	bool menuVisible = false;
 	bool atPresent = true;
