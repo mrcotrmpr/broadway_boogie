@@ -50,11 +50,27 @@ void Game::removeArtist(std::shared_ptr<Artist> artist) {
     }
 }
 
-std::shared_ptr<GameStateMemento> Game::createMemento()
-{
+std::shared_ptr<GameStateMemento> Game::createMemento() {
     auto memento = std::make_shared<GameStateMemento>();
-    memento->savedMuseum = this->museum;
-    memento->savedArtists = this->artists;
+
+    if (museum) {
+        memento->savedMuseum = std::make_shared<Museum>(*this->museum);
+        memento->savedMuseum->nodes = std::vector<std::shared_ptr<Node>>();
+        for (const auto& node : this->museum->nodes) {
+            auto newNode = std::make_shared<Node>(*node);
+            memento->savedMuseum->nodes.push_back(newNode);
+        }
+    }
+    else {
+        memento->savedMuseum = nullptr;
+    }
+
+    memento->savedArtists = std::vector<std::shared_ptr<Artist>>();
+    for (const auto& artist : this->artists) {
+        auto newArtist = std::make_shared<Artist>(*artist);
+        memento->savedArtists.push_back(newArtist);
+    }
+
     return memento;
 }
 

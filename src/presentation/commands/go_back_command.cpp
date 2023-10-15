@@ -7,11 +7,11 @@
 
 void GoBackCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumManager> museumManager, std::shared_ptr<ArtistManager> artistManager) {
     game->atPresent = false;
-    
+
     if (game->currentMementoIndex == -1) {
         game->currentMementoIndex = game->sdl->mementoManager->getMementosCount() - 1;
     }
-    
+
     std::cout << "Current index: " << game->currentMementoIndex << "/" << game->sdl->mementoManager->getMementosCount() - 1 << std::endl;
 
     int currentMementoIndex = game->currentMementoIndex;
@@ -19,7 +19,7 @@ void GoBackCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<MuseumMa
         auto memento = game->sdl->mementoManager->getMemento(currentMementoIndex - 1);
         game->currentMementoIndex = currentMementoIndex - 1;
         game->restoreMemento(memento);
-        std::cout << "Went back to previous state." << std::endl;
+        game->sdl->render();
     }
     else {
         std::cout << "No more states to go back to." << std::endl;

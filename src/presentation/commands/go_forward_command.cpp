@@ -17,8 +17,7 @@ void GoForwardCommand::execute(std::shared_ptr<Game> game, std::shared_ptr<Museu
         auto memento = game->sdl->mementoManager->getMemento(currentMementoIndex + 1);
         game->currentMementoIndex = currentMementoIndex + 1;
         game->restoreMemento(memento);
-        std::cout << "Went forward to next state." << std::endl;
-
+        game->sdl->render();
     }
     else {
         game->atPresent = true;
