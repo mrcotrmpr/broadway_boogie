@@ -49,8 +49,19 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
         nodeRect.h = 14;
         SDL_RenderFillRect(renderer, &nodeRect);
 
-        // Pathfinding
-        if (node->visited == 'X') {
+        // Pathfinding shortest path
+        if (node->visited == 'S') {
+            // white square
+            SDL_Rect whiteSquare;
+            whiteSquare.w = 4;
+            whiteSquare.h = 4;
+            whiteSquare.x = static_cast<int>(node->x * scaleX) + 6;
+            whiteSquare.y = static_cast<int>(node->y * scaleY) + 6;
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_RenderFillRect(renderer, &whiteSquare);
+        }
+        else if (node->visited == 'P') {
+            // black square
             SDL_Rect blackSquare;
             blackSquare.w = 4;
             blackSquare.h = 4;
@@ -58,6 +69,16 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
             blackSquare.y = static_cast<int>(node->y * scaleY) + 6;
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderFillRect(renderer, &blackSquare);
+        }
+        else if (node->visited == 'V') {
+            // black edges
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_Rect outlineRect;
+            outlineRect.x = static_cast<int>(node->x * scaleX);
+            outlineRect.y = static_cast<int>(node->y * scaleY);
+            outlineRect.w = 14;
+            outlineRect.h = 14;
+            SDL_RenderDrawRect(renderer, &outlineRect);
         }
 
         // Draw edges
