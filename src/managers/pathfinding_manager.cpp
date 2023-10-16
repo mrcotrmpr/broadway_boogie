@@ -18,7 +18,6 @@ void PathfindingManager::breadthFirstSearch(std::shared_ptr<Game> game)
     std::queue<std::shared_ptr<Node>> nodeQueue;
     std::unordered_map<std::shared_ptr<Node>, int> steps; // Track steps for each node
 
-    game->pathFindingStart->visited = 'S';
     nodeQueue.push(game->pathFindingStart);
     steps[game->pathFindingStart] = 0;
 
@@ -34,9 +33,9 @@ void PathfindingManager::breadthFirstSearch(std::shared_ptr<Game> game)
 
         // Traverse the neighboring nodes of the current node
         for (const auto& neighbor : currentNode->getNeighbors(game)) {
+            neighbor->visited = 'V';
             if (steps.find(neighbor) == steps.end()) {
                 // Mark the node as visited, add it to the queue for further exploration, and update the steps
-                neighbor->visited = 'V';
                 steps[neighbor] = steps[currentNode] + 1;
                 nodeQueue.push(neighbor);
             }
@@ -54,6 +53,7 @@ void PathfindingManager::breadthFirstSearch(std::shared_ptr<Game> game)
             }
         }
     }
+    game->pathFindingStart->visited = 'S';
 }
 
 
