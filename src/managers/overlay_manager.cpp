@@ -5,14 +5,14 @@ OverlayManager::OverlayManager()
     ttf->init();
 }
 
-void OverlayManager::renderOverlayMenu(SDL_Renderer* renderer, bool menuVisible, bool artistsMoving, bool breadthFirstSearch) {
-    if (menuVisible) {
+void OverlayManager::renderOverlayMenu(SDL_Renderer* renderer, std::shared_ptr<Game> game) {
+    if (game->menuVisible) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Black with some transparency
         SDL_Rect menuRect;
         menuRect.x = 10;
         menuRect.y = 10;
         menuRect.w = 180;
-        menuRect.h = 70;
+        menuRect.h = 100;
         SDL_RenderFillRect(renderer, &menuRect);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White
@@ -23,20 +23,12 @@ void OverlayManager::renderOverlayMenu(SDL_Renderer* renderer, bool menuVisible,
         textRect.w = 160;
         textRect.h = 20;
 
-        if (artistsMoving) {
-            ttf->renderText(renderer, "Artists moving: on", textRect);
-            textRect.y += 30; // Update the y attribute to render the next text below
-        }
-        else {
-            ttf->renderText(renderer, "Artists moving: off", textRect);
-            textRect.y += 30; // Update the y attribute to render the next text below
-        }
+        game->artistsMoving ? ttf->renderText(renderer, "Artists moving: on", textRect) : ttf->renderText(renderer, "Artists moving: off", textRect);
+        textRect.y += 30;
 
-        if (breadthFirstSearch) {
-            ttf->renderText(renderer, "Pathfinding: breadthFirstSearch", textRect);
-        }
-        else {
-            ttf->renderText(renderer, "Pathfinding: dijkstra", textRect);
-        }
+        game->breadthFirstSearch ? ttf->renderText(renderer, "Pathfinding: breadthFirstSearch", textRect) : ttf->renderText(renderer, "Pathfinding: dijkstra", textRect);
+        textRect.y += 30;
+
+        game->checkCollisionsNaive ? ttf->renderText(renderer, "Collision: naive", textRect) : ttf->renderText(renderer, "Collision: quadtree", textRect);
     }
 }

@@ -8,8 +8,8 @@
 
 class CollisionManager {
 public:
-    void checkCollisionsNaive(std::shared_ptr<Game> game, float scaleX, float scaleY, bool artistsMoving);
-    void checkCollisionsQuadtree(std::shared_ptr<Game> game, float scaleX, float scaleY, bool artistsMoving);
+    void checkCollisionsNaive(std::shared_ptr<Game> game);
+    void checkCollisionsQuadtree(std::shared_ptr<Game> game);
 };
 
 #endif // COLLISION_MANAGER_HPP

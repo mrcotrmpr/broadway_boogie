@@ -2,12 +2,14 @@
 #define OVERLAY_MANAGER_HPP
 
 #include <SDL.h>
+#include <memory>
+#include "../presentation/game.hpp"
 #include "../presentation/sdl_ttf_facade.hpp"
 
 class OverlayManager {
 public:
     OverlayManager();
-    void renderOverlayMenu(SDL_Renderer* renderer, bool menuVisible, bool artistsMoving, bool breadthFirstSearch);
+    void renderOverlayMenu(SDL_Renderer* renderer, std::shared_ptr<Game> game);
     std::shared_ptr<SDLTTFFacade> ttf = std::make_shared<SDLTTFFacade>();
 };
 

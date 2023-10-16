@@ -28,6 +28,7 @@ public:
 	bool menuVisible = false;
 	bool atPresent = true;
 	bool breadthFirstSearch = true;
+	bool checkCollisionsNaive = true;
 	int windowWidth = 800;
 	int windowHeight = 800;
 	int currentMementoIndex = -1;

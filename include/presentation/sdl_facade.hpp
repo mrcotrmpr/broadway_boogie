@@ -23,6 +23,8 @@
 #include "presentation/commands/set_pathfinding_end_command.hpp"
 #include "presentation/commands/toggle_pathfinding_command.hpp"
 #include "presentation/commands/do_pathfinding_command.hpp"
+#include "presentation/commands/toggle_collision_command.hpp"
+#include "presentation/commands/do_collision_command.hpp"
 
 class Artist;
 class Museum;
