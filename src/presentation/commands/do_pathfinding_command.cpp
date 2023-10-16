@@ -3,5 +3,10 @@
 
 void DoPathFindingCommand::execute(std::shared_ptr<Game> game)
 {
-	manager->breadthFirstSearch(game);
+	if (game->breadthFirstSearch) {
+		manager->breadthFirstSearch(game);
+	}
+	else {
+		manager->dijkstra(game);
+	}
 }

@@ -7,7 +7,7 @@
 class OverlayManager {
 public:
     OverlayManager();
-    void renderOverlayMenu(SDL_Renderer* renderer, bool menuVisible, bool artistsMoving);
+    void renderOverlayMenu(SDL_Renderer* renderer, bool menuVisible, bool artistsMoving, bool breadthFirstSearch);
     std::shared_ptr<SDLTTFFacade> ttf = std::make_shared<SDLTTFFacade>();
 };
 

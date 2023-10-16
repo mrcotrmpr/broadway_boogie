@@ -21,6 +21,7 @@
 #include "presentation/commands/go_back_command.hpp"
 #include "presentation/commands/set_pathfinding_start_command.hpp"
 #include "presentation/commands/set_pathfinding_end_command.hpp"
+#include "presentation/commands/toggle_pathfinding_command.hpp"
 #include "presentation/commands/do_pathfinding_command.hpp"
 
 class Artist;

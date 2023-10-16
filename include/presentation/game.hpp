@@ -27,6 +27,7 @@ public:
 	bool artistsMoving = false;
 	bool menuVisible = false;
 	bool atPresent = true;
+	bool breadthFirstSearch = true;
 	int windowWidth = 800;
 	int windowHeight = 800;
 	int currentMementoIndex = -1;

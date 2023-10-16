@@ -22,6 +22,7 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     auto goBackCommand = std::make_shared<GoBackCommand>();
     auto setPathFindingStartCommand = std::make_shared<SetPathFindingStartCommand>();
     auto setPathFindingEndCommand = std::make_shared<SetPathFindingEndCommand>();
+    auto togglePathFindingEndCommand = std::make_shared<TogglePathfindingCommand>();
     auto doPathFindingEndCommand = std::make_shared<DoPathFindingCommand>();
 
     // Register the commands with their respective keys
@@ -32,7 +33,8 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     registerCommand(SDLK_RETURN, handleNodeInteractionCommand);
     registerCommand(SDLK_LEFT, goBackCommand);
     registerCommand(SDLK_RIGHT, goForwardCommand);
-    registerCommand(SDLK_d, doPathFindingEndCommand);
+    registerCommand(SDLK_p, doPathFindingEndCommand);
+    registerCommand(SDLK_d, togglePathFindingEndCommand);
     registerCommand(SDL_BUTTON_LEFT, setPathFindingStartCommand);
     registerCommand(SDL_BUTTON_RIGHT, setPathFindingEndCommand);
 }
@@ -99,7 +101,7 @@ void SDLFacade::render() {
         artistManager->detectCollisions(gameState, gameState->scaleX, gameState->scaleY, gameState->artistsMoving);
     }
 
-    overlayManager->renderOverlayMenu(renderer, gameState->menuVisible, gameState->artistsMoving);
+    overlayManager->renderOverlayMenu(renderer, gameState->menuVisible, gameState->artistsMoving, gameState->breadthFirstSearch);
 
     SDL_RenderPresent(renderer);
 }
