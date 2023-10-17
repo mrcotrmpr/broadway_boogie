@@ -6,41 +6,11 @@
 
 SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false) 
 {
-    // Instantiate managers
     museumManager = std::make_shared<MuseumManager>();
     artistManager = std::make_shared<ArtistManager>();
     overlayManager = std::make_shared<OverlayManager>();
     mementoManager = std::make_shared<Caretaker>();
-
-    // Create instances of the commands and register them
-    auto loadMuseumCommand = std::make_shared<LoadMuseumCommand>();
-    auto loadArtistCommand = std::make_shared<LoadArtistCommand>();
-    auto toggleArtistMovingCommand = std::make_shared<ToggleArtistsMovingCommand>();
-    auto toggleMenuVisibleCommand = std::make_shared<ToggleMenuVisibleCommand>();
-    auto handleNodeInteractionCommand = std::make_shared<HandleNodeInteractionCommand>();
-    auto goForwardCommand = std::make_shared<GoForwardCommand>();
-    auto goBackCommand = std::make_shared<GoBackCommand>();
-    auto setPathFindingStartCommand = std::make_shared<SetPathFindingStartCommand>();
-    auto setPathFindingEndCommand = std::make_shared<SetPathFindingEndCommand>();
-    auto togglePathFindingEndCommand = std::make_shared<TogglePathfindingCommand>();
-    auto doPathFindingEndCommand = std::make_shared<DoPathFindingCommand>();
-    auto toggleCollisionCommand = std::make_shared<ToggleCollisionCommand>();
-    auto doCollisionCommand = std::make_shared<DoCollisionCommand>();
-
-    // Register the commands with their respective keys
-    registerCommand(SDLK_o, loadMuseumCommand);
-    registerCommand(SDLK_a, loadArtistCommand);
-    registerCommand(SDLK_SPACE, toggleArtistMovingCommand);
-    registerCommand(SDLK_m, toggleMenuVisibleCommand);
-    registerCommand(SDLK_RETURN, handleNodeInteractionCommand);
-    registerCommand(SDLK_LEFT, goBackCommand);
-    registerCommand(SDLK_RIGHT, goForwardCommand);
-    registerCommand(SDLK_p, doPathFindingEndCommand);
-    registerCommand(SDLK_d, togglePathFindingEndCommand);
-    registerCommand(SDL_BUTTON_LEFT, setPathFindingStartCommand);
-    registerCommand(SDL_BUTTON_RIGHT, setPathFindingEndCommand);
-    registerCommand(SDLK_c, toggleCollisionCommand);
-    registerCommand(SDLK_q, doCollisionCommand);
+    commandManager = std::make_shared<CommandManager>();
 }
 
 SDLFacade::~SDLFacade() {
@@ -127,8 +97,8 @@ bool SDLFacade::handleEvents() {
 }
 
 void SDLFacade::handleKeyPress(SDL_Keycode key) {
-    auto it = commandMap.find(key);
-    if (it != commandMap.end()) {
+    auto it = commandManager->commandMap.find(key);
+    if (it != commandManager->commandMap.end()) {
         it->second->execute(gameState);
     }
 }
@@ -143,8 +113,4 @@ void SDLFacade::cleanup() {
     if (initialized) {
         SDL_Quit();
     }
-}
-
-void SDLFacade::registerCommand(SDL_Keycode key, std::shared_ptr<Command> command) {
-    commandMap[key] = command;
 }
