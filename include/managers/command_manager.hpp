@@ -2,9 +2,9 @@
 #define COMMAND_MANAGER_HPP
 
 #include "presentation/commands/command.hpp"
-#include "presentation/commands/load_museum_command.hpp"
-#include "presentation/commands/load_artist_command.hpp"
+#include "presentation/commands/load_documents_command.hpp"
 #include "presentation/commands/toggle_artist_moving_command.hpp"
+#include "presentation/commands/toggle_render_artists_command.hpp"
 #include "presentation/commands/toggle_menu_visible_command.hpp"
 #include "presentation/commands/handle_node_interaction_command.hpp"
 #include "presentation/commands/go_forward_command.hpp"

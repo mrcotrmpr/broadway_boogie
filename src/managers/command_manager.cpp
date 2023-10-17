@@ -3,9 +3,9 @@
 CommandManager::CommandManager()
 {
     // Create instances of the commands and register them
-    auto loadMuseumCommand = std::make_shared<LoadMuseumCommand>();
-    auto loadArtistCommand = std::make_shared<LoadArtistCommand>();
+    auto loadDocumentsCommand = std::make_shared<LoadDocumentsCommand>();
     auto toggleArtistMovingCommand = std::make_shared<ToggleArtistsMovingCommand>();
+    auto toggleRenderArtistsCommand = std::make_shared<ToggleRenderArtistsCommand>();
     auto toggleMenuVisibleCommand = std::make_shared<ToggleMenuVisibleCommand>();
     auto handleNodeInteractionCommand = std::make_shared<HandleNodeInteractionCommand>();
     auto goForwardCommand = std::make_shared<GoForwardCommand>();
@@ -18,8 +18,8 @@ CommandManager::CommandManager()
     auto doCollisionCommand = std::make_shared<DoCollisionCommand>();
 
     // Register the commands with their respective keys
-    registerCommand(SDLK_o, loadMuseumCommand);
-    registerCommand(SDLK_a, loadArtistCommand);
+    registerCommand(SDLK_o, loadDocumentsCommand);
+    registerCommand(SDLK_a, toggleRenderArtistsCommand);
     registerCommand(SDLK_SPACE, toggleArtistMovingCommand);
     registerCommand(SDLK_m, toggleMenuVisibleCommand);
     registerCommand(SDLK_RETURN, handleNodeInteractionCommand);

@@ -1,7 +1,7 @@
 #ifndef TOGGLE_ARTISTS_MOVING_COMMAND_HPP
 #define TOGGLE_ARTISTS_MOVING_COMMAND_HPP
 
-#include "command.hpp"
+#include "presentation/commands/command.hpp"
 
 class ToggleArtistsMovingCommand : public Command {
 public:

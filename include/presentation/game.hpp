@@ -25,6 +25,7 @@ public:
 	std::shared_ptr<Node> pathFindingStart;
 	std::shared_ptr<Node> pathFindingEnd;
 	bool artistsMoving = false;
+	bool renderArtists = true;
 	bool menuVisible = false;
 	bool atPresent = true;
 	bool breadthFirstSearch = true;

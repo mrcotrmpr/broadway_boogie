@@ -1,7 +1,7 @@
 #ifndef TOGGLE_COLLISION_COMMAND_HPP
 #define TOGGLE_COLLISION_COMMAND_HPP
 
-#include "command.hpp"
+#include "presentation/commands/command.hpp"
 
 class ToggleCollisionCommand : public Command {
 public:

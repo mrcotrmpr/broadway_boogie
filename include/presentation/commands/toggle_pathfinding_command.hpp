@@ -1,7 +1,7 @@
 #ifndef TOGGLE_PATHFINDING_COMMAND_HPP
 #define TOGGLE_PATHFINDING_COMMAND_HPP
 
-#include "command.hpp"
+#include "presentation/commands/command.hpp"
 
 class TogglePathfindingCommand : public Command {
 public:

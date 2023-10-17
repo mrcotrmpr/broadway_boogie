@@ -66,11 +66,11 @@ void SDLFacade::render() {
         museumManager->renderMuseum(renderer, gameState->museum, gameState->scaleX, gameState->scaleY);
     }
 
-    if (!gameState->artists.empty()) {
+    if (!gameState->artists.empty() && gameState->renderArtists) {
         artistManager->renderArtists(renderer, gameState->artists, gameState->scaleX, gameState->scaleY);
     }
 
-    if (gameState->atPresent) {
+    if (gameState->atPresent && gameState->renderArtists) {
         artistManager->moveArtistsRandomly(gameState->artists, gameState->artistsMoving);
         artistManager->detectCollisions(gameState, gameState->scaleX, gameState->scaleY, gameState->artistsMoving);
     }

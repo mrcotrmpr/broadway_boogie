@@ -4,7 +4,5 @@
 
 void ToggleCollisionCommand::execute(std::shared_ptr<Game> game)
 {
-	if (game->atPresent) {
-		game->checkCollisionsNaive = !game->checkCollisionsNaive;
-	}
+	game->checkCollisionsNaive = !game->checkCollisionsNaive;
 }
