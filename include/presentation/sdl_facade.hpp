@@ -10,6 +10,7 @@
 #include "managers/overlay_manager.hpp"
 #include "managers/command_manager.hpp"
 #include "managers/pathfinding_manager.hpp"
+#include "managers/collision_manager.hpp"
 #include "memento/caretaker.hpp"
 #include "presentation/game.hpp"
 
@@ -34,6 +35,7 @@ private:
     std::shared_ptr<OverlayManager> overlayManager;
     std::shared_ptr<CommandManager> commandManager;
     std::shared_ptr<PathfindingManager> pathfindingManager;
+    std::shared_ptr<CollisionManager> collisionManager;
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;

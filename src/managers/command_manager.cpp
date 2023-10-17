@@ -14,9 +14,10 @@ CommandManager::CommandManager()
     auto setPathFindingEndCommand = std::make_shared<SetPathFindingEndCommand>();
     auto togglePathFindingEndCommand = std::make_shared<TogglePathfindingCommand>();
     auto toggleCollisionCommand = std::make_shared<ToggleCollisionCommand>();
-    auto doCollisionCommand = std::make_shared<DoCollisionCommand>();
     auto toggleRenderPathCommand = std::make_shared<ToggleRenderPathCommand>();
     auto toggleRenderVisitedCommand = std::make_shared<ToggleRenderVisitedCommand>();
+    auto toggleRenderQuadtreeCommand = std::make_shared<ToggleRenderQuadtreeCommand>();
+    auto togglePathCollisionCommand = std::make_shared<TogglePathCollisionCommand>();
 
     // Register the commands with their respective keys
     registerCommand(SDLK_o, loadDocumentsCommand);
@@ -27,12 +28,13 @@ CommandManager::CommandManager()
     registerCommand(SDLK_LEFT, goBackCommand);
     registerCommand(SDLK_RIGHT, goForwardCommand);
     registerCommand(SDLK_d, togglePathFindingEndCommand);
-    registerCommand(SDL_BUTTON_LEFT, setPathFindingStartCommand);
-    registerCommand(SDL_BUTTON_RIGHT, setPathFindingEndCommand);
     registerCommand(SDLK_c, toggleCollisionCommand);
-    registerCommand(SDLK_q, doCollisionCommand);
     registerCommand(SDLK_p, toggleRenderPathCommand);
     registerCommand(SDLK_v, toggleRenderVisitedCommand);
+    registerCommand(SDLK_q, toggleRenderQuadtreeCommand);
+    registerCommand(SDLK_w, togglePathCollisionCommand);
+    registerCommand(SDL_BUTTON_LEFT, setPathFindingStartCommand);
+    registerCommand(SDL_BUTTON_RIGHT, setPathFindingEndCommand);
 }
 
 void CommandManager::registerCommand(SDL_Keycode key, std::shared_ptr<Command> command)

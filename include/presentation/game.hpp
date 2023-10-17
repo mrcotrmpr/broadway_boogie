@@ -30,6 +30,8 @@ public:
 	bool renderArtists = true;
 	bool renderPath = true;
 	bool renderVisited = true;
+	bool renderQuadtree = true;
+	bool pathCollision = true;
 	bool menuVisible = false;
 	bool atPresent = true;
 	bool breadthFirstSearch = true;

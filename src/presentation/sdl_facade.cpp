@@ -12,6 +12,7 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     mementoManager = std::make_shared<Caretaker>();
     commandManager = std::make_shared<CommandManager>();
     pathfindingManager = std::make_shared<PathfindingManager>();
+    collisionManager = std::make_shared<CollisionManager>();
 }
 
 SDLFacade::~SDLFacade() {
@@ -88,6 +89,13 @@ void SDLFacade::render() {
             gameState->currentPathfindingStart = gameState->pathFindingStart;
             gameState->currentPathfindingEnd = gameState->pathFindingEnd;
         }
+    }
+
+    if (gameState->checkCollisionsNaive) {
+        collisionManager->checkCollisionsNaive(gameState);
+    }
+    else {
+        collisionManager->checkCollisionsQuadtree(gameState);
     }
 
     overlayManager->renderOverlayMenu(renderer, gameState);
