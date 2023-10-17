@@ -11,6 +11,7 @@ SDLFacade::SDLFacade() : window(nullptr), renderer(nullptr), initialized(false)
     overlayManager = std::make_shared<OverlayManager>();
     mementoManager = std::make_shared<Caretaker>();
     commandManager = std::make_shared<CommandManager>();
+    pathfindingManager = std::make_shared<PathfindingManager>();
 }
 
 SDLFacade::~SDLFacade() {
@@ -63,7 +64,7 @@ void SDLFacade::render() {
     SDL_RenderClear(renderer);
 
     if (gameState->museum) {
-        museumManager->renderMuseum(renderer, gameState->museum, gameState->scaleX, gameState->scaleY);
+        museumManager->renderMuseum(renderer, gameState->museum, gameState->scaleX, gameState->scaleY, gameState->renderPath, gameState->renderVisited);
     }
 
     if (!gameState->artists.empty() && gameState->renderArtists) {
@@ -73,6 +74,20 @@ void SDLFacade::render() {
     if (gameState->atPresent && gameState->renderArtists) {
         artistManager->moveArtistsRandomly(gameState->artists, gameState->artistsMoving);
         artistManager->detectCollisions(gameState, gameState->scaleX, gameState->scaleY, gameState->artistsMoving);
+    }
+
+    if (gameState->pathFindingStart != nullptr && gameState->pathFindingEnd != nullptr) {
+        if (gameState->pathFindingStart != gameState->currentPathfindingStart || gameState->pathFindingEnd != gameState->currentPathfindingEnd || gameState->currentBreadthFirstSearch != gameState->breadthFirstSearch) {
+            gameState->currentBreadthFirstSearch = gameState->breadthFirstSearch;
+            if (gameState->breadthFirstSearch) {
+                pathfindingManager->breadthFirstSearch(gameState);
+            }
+            else {
+                pathfindingManager->dijkstra(gameState);
+            }
+            gameState->currentPathfindingStart = gameState->pathFindingStart;
+            gameState->currentPathfindingEnd = gameState->pathFindingEnd;
+        }
     }
 
     overlayManager->renderOverlayMenu(renderer, gameState);

@@ -12,7 +12,7 @@
 class MuseumManager {
 public:
     std::shared_ptr<Museum> loadMuseum();
-    void renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum> museum, float scaleX, float scaleY);
+    void renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum> museum, float scaleX, float scaleY, bool path, bool visited);
     XMLReader xmlReader;
     WebReader webReader;
     XMLParser xmlParser;

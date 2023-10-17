@@ -12,9 +12,10 @@
 #include "presentation/commands/set_pathfinding_start_command.hpp"
 #include "presentation/commands/set_pathfinding_end_command.hpp"
 #include "presentation/commands/toggle_pathfinding_command.hpp"
-#include "presentation/commands/do_pathfinding_command.hpp"
 #include "presentation/commands/toggle_collision_command.hpp"
 #include "presentation/commands/do_collision_command.hpp"
+#include "presentation/commands/toggle_render_path_command.hpp"
+#include "presentation/commands/toggle_render_visited_command.hpp"
 #include <unordered_map>
 #include <SDL.h>
 

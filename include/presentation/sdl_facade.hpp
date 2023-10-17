@@ -9,6 +9,7 @@
 #include "managers/artist_manager.hpp"
 #include "managers/overlay_manager.hpp"
 #include "managers/command_manager.hpp"
+#include "managers/pathfinding_manager.hpp"
 #include "memento/caretaker.hpp"
 #include "presentation/game.hpp"
 
@@ -32,6 +33,7 @@ private:
     std::shared_ptr<ArtistManager> artistManager;
     std::shared_ptr<OverlayManager> overlayManager;
     std::shared_ptr<CommandManager> commandManager;
+    std::shared_ptr<PathfindingManager> pathfindingManager;
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool initialized;

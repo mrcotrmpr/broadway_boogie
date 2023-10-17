@@ -24,11 +24,16 @@ public:
 	std::shared_ptr<SDLFacade> sdl;
 	std::shared_ptr<Node> pathFindingStart;
 	std::shared_ptr<Node> pathFindingEnd;
+	std::shared_ptr<Node> currentPathfindingStart;
+	std::shared_ptr<Node> currentPathfindingEnd;
 	bool artistsMoving = false;
 	bool renderArtists = true;
+	bool renderPath = true;
+	bool renderVisited = true;
 	bool menuVisible = false;
 	bool atPresent = true;
 	bool breadthFirstSearch = true;
+	bool currentBreadthFirstSearch = true;
 	bool checkCollisionsNaive = true;
 	int windowWidth = 800;
 	int windowHeight = 800;

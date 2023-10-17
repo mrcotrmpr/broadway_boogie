@@ -13,7 +13,7 @@ std::shared_ptr<Museum> MuseumManager::loadMuseum()
     return xmlParser.parse(xml_content);
 }
 
-void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum> museum, float scaleX, float scaleY) {
+void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum> museum, float scaleX, float scaleY, bool path, bool visited) {
     std::unordered_map<char, std::shared_ptr<NodeType>> nodeTypeMap;
     for (auto type : museum->nodeTypes) {
         nodeTypeMap[type->tag] = type;
@@ -50,7 +50,7 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
         SDL_RenderFillRect(renderer, &nodeRect);
 
         // Pathfinding shortest path
-        if (node->visited == 'S') {
+        if (node->visited == 'S' && path) {
             // white square
             SDL_Rect whiteSquare;
             whiteSquare.w = 4;
@@ -60,7 +60,7 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             SDL_RenderFillRect(renderer, &whiteSquare);
         }
-        else if (node->visited == 'P') {
+        else if (node->visited == 'P' && path) {
             // black square
             SDL_Rect blackSquare;
             blackSquare.w = 4;
@@ -70,7 +70,7 @@ void MuseumManager::renderMuseum(SDL_Renderer* renderer, std::shared_ptr<Museum>
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderFillRect(renderer, &blackSquare);
         }
-        else if (node->visited == 'V') {
+        else if (node->visited == 'V' && visited) {
             // black edges
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_Rect outlineRect;
