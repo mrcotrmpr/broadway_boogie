@@ -8,6 +8,7 @@
 class QuadtreeNode {
 public:
     QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float pHeight);
+    void removePoint(std::shared_ptr<Artist> artist);
     void clear();
     void split();
     int level;

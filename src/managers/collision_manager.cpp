@@ -5,14 +5,14 @@
 
 void CollisionManager::checkCollisionsNaive(std::shared_ptr<Game> game)
 {
-	for (const auto& artist : game->artists) {
+	for (const auto& artist : game->getArtists()) {
 		// Collision with edges of window -> turn around 180 degrees
 		if (artist->x < 0 || artist->x > game->museum->numRows || artist->y < 0 || artist->y > game->museum->numCols) {
 			artist->direction = (artist->direction + 2) % 4;
 		}
 
 		// Collision with other artists
-		for (const auto& otherArtist : game->artists) {
+		for (const auto& otherArtist : game->getArtists()) {
 			// Check if the two artists are distinct and are within the same position
 			if (artist != otherArtist && artist->leftFirstNode && otherArtist->leftFirstNode) {
 				if (checkCollision(artist, otherArtist, game->scaleX, game->scaleY)) {
@@ -51,7 +51,7 @@ void CollisionManager::renderQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, S
 	if (node) {
 		// Rendering the current node as a box
 		SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // You can choose any color
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		SDL_RenderDrawRect(renderer, &rect);
 
 		// Rendering the children nodes

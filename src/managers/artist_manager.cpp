@@ -6,7 +6,9 @@ std::vector<std::shared_ptr<Artist>> ArtistManager::loadArtists()
     const std::string csv_url = "https://filebin.net/8eynljvrm1cq98ci/artists.csv";
 
     std::string csv_data = csvReader.read(csv_filename);
-    return csvParser.parse(csv_data);
+    std::vector<std::shared_ptr<Artist>> loadedArtists = csvParser.parse(csv_data);
+
+    return loadedArtists;
 }
 
 void ArtistManager::renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Game> game) {
@@ -68,7 +70,7 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
         return;
     }
 
-    for (auto& artist : game->artists) {
+    for (auto& artist : game->getArtists()) {
         if (artist) {
             // Calculate the position of the artist on the scaled coordinates
             float artistX = artist->x * scaleX;
@@ -90,8 +92,7 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                             node->state->handleInteraction(game, node, artist);
 
                             // Update the last node for the artist
-                            auto it = std::find(game->artists.begin(), game->artists.end(), artist);
-                            if (it != game->artists.end()) {
+                            if (game->getArtist(artist) != nullptr) {
                                 artist->lastNode = node;
                             }
                             artist->leftFirstNode = true;
@@ -109,7 +110,9 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
         }
     }
 
-    game->artists.insert(game->artists.end(), game->newArtists.begin(), game->newArtists.end());
+    for (const auto& artist : game->newArtists) {
+        game->addArtist(artist);
+    }
     game->newArtists.clear(); // Clear the newArtists vector for the next iteration
 }
 

@@ -8,8 +8,11 @@ void LoadDocumentsCommand::execute(std::shared_ptr<Game> game)
         if (!game->museum) {
             game->museum = museumManager->loadMuseum();
         }
-        if (game->artists.empty()) {
-            game->artists = artistManager->loadArtists();
+        if (game->getArtists().empty()) {
+            std::vector<std::shared_ptr<Artist>> loadedArtists = artistManager->loadArtists();
+            for (const auto& artist : loadedArtists) {
+                game->addArtist(artist);
+            }
         }
     }
 }

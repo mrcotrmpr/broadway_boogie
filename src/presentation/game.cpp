@@ -17,6 +17,12 @@ void Game::start()
     sdl->cleanup();
 }
 
+void Game::addArtist(std::shared_ptr<Artist> artist)
+{
+    artists.push_back(artist);
+    quadtree->root->points.push_back(artist);
+}
+
 std::shared_ptr<Node> Game::getNode(float x, float y) {
     for (const auto& node : museum->nodes) {
         float scaledNodeX = node->x * scaleX;
@@ -41,6 +47,22 @@ std::shared_ptr<Artist> Game::getArtist(float x, float y) {
     return nullptr;
 }
 
+std::vector<std::shared_ptr<Artist>> Game::getArtists()
+{
+    return this->artists;
+}
+
+std::shared_ptr<Artist> Game::getArtist(std::shared_ptr<Artist> artist)
+{
+    auto it = std::find(artists.begin(), artists.end(), artist);
+    if (it != artists.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
+    }
+}
+
 void Game::removeArtist(std::shared_ptr<Artist> artist) {
     auto it = std::find(artists.begin(), artists.end(), artist);
     if (it != artists.end()) {
@@ -49,6 +71,7 @@ void Game::removeArtist(std::shared_ptr<Artist> artist) {
     else {
         std::cout << "Artist not found." << std::endl;
     }
+    quadtree->root->removePoint(artist);
 }
 
 std::shared_ptr<GameStateMemento> Game::createMemento() {

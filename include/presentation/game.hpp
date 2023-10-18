@@ -14,12 +14,14 @@ class SDLFacade;
 class Game : public std::enable_shared_from_this<Game> {
 public:
 	void start();
+	void addArtist(std::shared_ptr<Artist> artist);
 	void removeArtist(std::shared_ptr<Artist> artist);
 	std::shared_ptr<Node> getNode(float x, float y);
 	std::shared_ptr<Artist> getArtist(float x, float y);
+	std::vector<std::shared_ptr<Artist>> getArtists();
+	std::shared_ptr<Artist> getArtist(std::shared_ptr<Artist> artist);
 	std::shared_ptr<GameStateMemento> createMemento();
 	void restoreMemento(std::shared_ptr<GameStateMemento> memento);
-	std::vector<std::shared_ptr<Artist>> artists;
 	std::vector<std::shared_ptr<Artist>> newArtists;
 	std::shared_ptr<Museum> museum;
 	std::shared_ptr<SDLFacade> sdl;
@@ -44,6 +46,8 @@ public:
 	float scaleX = static_cast<float>(windowWidth) / 53.0f;
 	float scaleY = static_cast<float>(windowHeight) / 53.0f;
 	std::shared_ptr<Quadtree> quadtree;
+private:
+	std::vector<std::shared_ptr<Artist>> artists;
 };
 
 #endif // GAME_HPP
