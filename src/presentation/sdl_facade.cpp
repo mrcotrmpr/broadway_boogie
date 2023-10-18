@@ -95,7 +95,7 @@ void SDLFacade::render() {
         collisionManager->checkCollisionsNaive(gameState);
     }
     else {
-        collisionManager->checkCollisionsQuadtree(gameState);
+        collisionManager->checkCollisionsQuadtree(gameState, renderer);
     }
 
     overlayManager->renderOverlayMenu(renderer, gameState);

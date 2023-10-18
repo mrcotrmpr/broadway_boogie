@@ -6,6 +6,7 @@
 #include "domain/artist.hpp"
 #include "domain/node.hpp"
 #include "memento/game_state_memento.hpp"
+#include "quadtree/quadtree.hpp"
 #include "memory"
 
 class SDLFacade;
@@ -42,6 +43,7 @@ public:
 	int currentMementoIndex = -1;
 	float scaleX = static_cast<float>(windowWidth) / 53.0f;
 	float scaleY = static_cast<float>(windowHeight) / 53.0f;
+	std::shared_ptr<Quadtree> quadtree;
 };
 
 #endif // GAME_HPP

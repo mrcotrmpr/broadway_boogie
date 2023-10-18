@@ -41,12 +41,24 @@ void CollisionManager::checkCollisionsNaive(std::shared_ptr<Game> game)
 	}
 }
 
-void CollisionManager::checkCollisionsQuadtree(std::shared_ptr<Game> game)
+void CollisionManager::checkCollisionsQuadtree(std::shared_ptr<Game> game, SDL_Renderer* renderer)
 {
-	// Collision with other artist -> color red
-	// Collision with edges of window -> turn around 180 degrees
-	// Collision with calculated path -> color red IF game->pathCollision == true
-	// Render quadtree visually IF game->renderQuadtree == true}
+	renderQuadtreeNodes(game->quadtree->root, renderer);
+}
+
+void CollisionManager::renderQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, SDL_Renderer* renderer)
+{
+	if (node) {
+		// Rendering the current node as a box
+		SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // You can choose any color
+		SDL_RenderDrawRect(renderer, &rect);
+
+		// Rendering the children nodes
+		for (const auto& child : node->children) {
+			renderQuadtreeNodes(child, renderer);
+		}
+	}
 }
 
 bool CollisionManager::checkCollision(const std::shared_ptr<Artist>& artist1, const std::shared_ptr<Artist>& artist2, float scaleX, float scaleY) {

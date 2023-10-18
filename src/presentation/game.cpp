@@ -6,6 +6,7 @@
 void Game::start()
 {
     sdl = std::make_shared<SDLFacade>();
+    quadtree = std::make_shared<Quadtree>(0, 0, 800, 800);
     if (sdl->init(shared_from_this()) && sdl->createWindow("Museum", 800, 800)) {
         bool quit = false;
         while (!quit) {

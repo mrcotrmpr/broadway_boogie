@@ -84,7 +84,12 @@ void PathfindingManager::dijkstra(std::shared_ptr<Game> game)
     distances[game->pathFindingStart] = 0;
 
     // Create a priority queue to store nodes with their distances
-    std::priority_queue<std::pair<int, std::shared_ptr<Node>>, std::vector<std::pair<int, std::shared_ptr<Node>>>, std::greater<std::pair<int, std::shared_ptr<Node>>>> priorityQueue;
+    std::priority_queue<
+        std::pair<int, std::shared_ptr<Node>>, // Element type: pairs of integers and shared pointers to Node objects
+        std::vector<std::pair<int, std::shared_ptr<Node>>>, // Container type: vector of pairs
+        std::greater<std::pair<int, std::shared_ptr<Node>>> // Comparison function to order elements in the queue
+    > priorityQueue;
+
     priorityQueue.push({ 0, game->pathFindingStart });
 
     // Map to store the previous node in the optimal path
