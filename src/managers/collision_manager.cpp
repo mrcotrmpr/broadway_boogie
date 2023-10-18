@@ -46,9 +46,9 @@ void CollisionManager::checkCollisionsQuadtree(std::shared_ptr<Game> game, SDL_R
 	renderQuadtreeNodes(game->quadtree->root, renderer);
 }
 
-void CollisionManager::renderQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, SDL_Renderer* renderer)
-{
+void CollisionManager::renderQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, SDL_Renderer* renderer) {
 	if (node) {
+
 		// Rendering the current node as a box
 		SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

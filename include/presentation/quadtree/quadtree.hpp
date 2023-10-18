@@ -7,7 +7,7 @@
 
 class Quadtree {
 public:
-    Quadtree(float pX, float pY, float pWidth, float pHeight);
+    Quadtree(float pX, float pY, float pWidth, float pHeight, float scaleX, float scaleY);
     std::shared_ptr<QuadtreeNode> root;
 };
 

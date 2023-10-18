@@ -6,7 +6,7 @@
 void Game::start()
 {
     sdl = std::make_shared<SDLFacade>();
-    quadtree = std::make_shared<Quadtree>(0, 0, 800, 800);
+    quadtree = std::make_shared<Quadtree>(0, 0, 800, 800, scaleX, scaleY);
     if (sdl->init(shared_from_this()) && sdl->createWindow("Museum", 800, 800)) {
         bool quit = false;
         while (!quit) {
@@ -20,7 +20,7 @@ void Game::start()
 void Game::addArtist(std::shared_ptr<Artist> artist)
 {
     artists.push_back(artist);
-    quadtree->root->points.push_back(artist);
+    quadtree->root->insert(artist);
 }
 
 std::shared_ptr<Node> Game::getNode(float x, float y) {
