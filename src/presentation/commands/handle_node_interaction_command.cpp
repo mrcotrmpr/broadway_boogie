@@ -7,7 +7,7 @@ void HandleNodeInteractionCommand::execute(std::shared_ptr<Game> game)
     if (game->atPresent) {
         int x, y;
         SDL_GetMouseState(&x, &y);
-        std::shared_ptr<Node> currentNode = game->getNode(x, y, game->scaleX, game->scaleY);
+        std::shared_ptr<Node> currentNode = game->getNode(x, y);
         if (currentNode) {
             currentNode->state->handleInteraction(game, currentNode, nullptr);
         }

@@ -16,7 +16,7 @@ void Game::start()
     sdl->cleanup();
 }
 
-std::shared_ptr<Node> Game::getNode(float x, float y, float scaleX, float scaleY) {
+std::shared_ptr<Node> Game::getNode(float x, float y) {
     for (const auto& node : museum->nodes) {
         float scaledNodeX = node->x * scaleX;
         float scaledNodeY = node->y * scaleY;
@@ -28,7 +28,7 @@ std::shared_ptr<Node> Game::getNode(float x, float y, float scaleX, float scaleY
     return nullptr;
 }
 
-std::shared_ptr<Artist> Game::getArtist(float x, float y, float scaleX, float scaleY) {
+std::shared_ptr<Artist> Game::getArtist(float x, float y) {
     for (const auto& artist : artists) {
         float scaledNodeX = artist->x * scaleX;
         float scaledNodeY = artist->y * scaleY;

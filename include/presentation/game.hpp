@@ -14,8 +14,8 @@ class Game : public std::enable_shared_from_this<Game> {
 public:
 	void start();
 	void removeArtist(std::shared_ptr<Artist> artist);
-	std::shared_ptr<Node> getNode(float x, float y, float scaleX, float scaleY);
-	std::shared_ptr<Artist> getArtist(float x, float y, float scaleX, float scaleY);
+	std::shared_ptr<Node> getNode(float x, float y);
+	std::shared_ptr<Artist> getArtist(float x, float y);
 	std::shared_ptr<GameStateMemento> createMemento();
 	void restoreMemento(std::shared_ptr<GameStateMemento> memento);
 	std::vector<std::shared_ptr<Artist>> artists;

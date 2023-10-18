@@ -14,7 +14,7 @@
 class ArtistManager {
 public:
     std::vector<std::shared_ptr<Artist>> loadArtists();
-    void renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY);
+    void renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Game> game);
     void moveArtistsRandomly(std::vector<std::shared_ptr<Artist>>& artists, bool artistsMoving);
     void detectCollisions(std::shared_ptr<Game> game, float scaleX, float scaleY, bool artistsMoving);
     CSVReader csvReader;

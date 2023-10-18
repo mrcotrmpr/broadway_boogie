@@ -9,12 +9,18 @@ std::vector<std::shared_ptr<Artist>> ArtistManager::loadArtists()
     return csvParser.parse(csv_data);
 }
 
-void ArtistManager::renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, float scaleX, float scaleY) {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+void ArtistManager::renderArtists(SDL_Renderer* renderer, std::vector<std::shared_ptr<Artist>>& artists, std::shared_ptr<Game> game) {
     for (const auto& artist : artists) {
+        if (artist->colorTag == 'R') {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
+        }
+        else {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black
+        }
+
         SDL_Rect artistRect;
-        artistRect.x = static_cast<int>(artist->x * scaleX);
-        artistRect.y = static_cast<int>(artist->y * scaleY);
+        artistRect.x = static_cast<int>(artist->x * game->scaleX);
+        artistRect.y = static_cast<int>(artist->y * game->scaleY);
         artistRect.w = 7;
         artistRect.h = 7;
         SDL_RenderFillRect(renderer, &artistRect);
@@ -88,6 +94,7 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
                             if (it != game->artists.end()) {
                                 artist->lastNode = node;
                             }
+                            artist->leftFirstNode = true;
                         }
                     }
 

@@ -69,7 +69,7 @@ void SDLFacade::render() {
     }
 
     if (!gameState->artists.empty() && gameState->renderArtists) {
-        artistManager->renderArtists(renderer, gameState->artists, gameState->scaleX, gameState->scaleY);
+        artistManager->renderArtists(renderer, gameState->artists, gameState);
     }
 
     if (gameState->atPresent && gameState->renderArtists) {

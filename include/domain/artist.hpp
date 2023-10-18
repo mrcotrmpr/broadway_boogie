@@ -13,7 +13,9 @@ public:
     float vx;
     float vy;
     int direction = rand() % 4;
-    std::shared_ptr<Node> lastNode;
+    char colorTag = 'B';
+    std::shared_ptr<Node> lastNode = nullptr;
+    bool leftFirstNode = false;
 };
 
 #endif // ARTIST_HPP
