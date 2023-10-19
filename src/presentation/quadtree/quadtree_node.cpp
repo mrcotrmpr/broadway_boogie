@@ -70,19 +70,30 @@ void QuadtreeNode::split() {
 }
 
 void QuadtreeNode::update() {
-    if (children.empty()) {
-        for (const auto& point : this->points) {
-            if (!this->contains(point)) {
-                auto it = std::find(points.begin(), points.end(), point);
-                points.erase(it);
-                insert(point);
-            }
+    for (const auto& child : children) {
+        child->update();
+    }
+
+    if (points.size() > MAX_CAPACITY) {
+        split();
+        for (const auto& a : points) {
+            insert(a);
+        }
+        points.clear();
+    }
+
+    std::vector<std::shared_ptr<Artist>> pointsToRemove;
+    for (const auto& point : points) {
+        if (!contains(point)) {
+            pointsToRemove.push_back(point);
         }
     }
-    else
-    {
-        for (const auto& child : children) {
-            child->update();
-        }
+
+    for (const auto& point : pointsToRemove) {
+        auto it = std::find(points.begin(), points.end(), point);
+        if (it != points.end()) {
+            points.erase(it);
+        }        
+        insert(point);
     }
 }
