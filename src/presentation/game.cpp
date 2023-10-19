@@ -71,6 +71,7 @@ void Game::removeArtist(std::shared_ptr<Artist> artist) {
     else {
         std::cout << "Artist not found." << std::endl;
     }
+    quadtree->root->removePoint(artist);
 }
 
 std::shared_ptr<GameStateMemento> Game::createMemento() {

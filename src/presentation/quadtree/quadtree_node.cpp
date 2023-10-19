@@ -29,6 +29,18 @@ void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
     }
 }
 
+void QuadtreeNode::removePoint(std::shared_ptr<Artist> artist) {
+    auto it = std::find(points.begin(), points.end(), artist);
+    if (it != points.end()) {
+        points.erase(it);
+    }
+    else {
+        for (const auto& child : children) {
+            child->removePoint(artist);
+        }
+    }
+}
+
 bool QuadtreeNode::contains(const std::shared_ptr<Artist>& point) const {
     return (point->x * scaleX >= x && point->x * scaleX <= (x + width) && point->y * scaleY >= y && point->y * scaleY <= (y + height));
 }
