@@ -43,6 +43,7 @@ void CollisionManager::checkCollisionsNaive(std::shared_ptr<Game> game)
 
 void CollisionManager::checkCollisionsQuadtree(std::shared_ptr<Game> game, SDL_Renderer* renderer)
 {
+	game->quadtree->root->update();
 	renderQuadtreeNodes(game->quadtree->root, renderer);
 }
 

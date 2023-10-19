@@ -8,7 +8,7 @@ QuadtreeNode::QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float p
 
 void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
     if (children.empty()) {
-        if (points.size() < MAX_CAPACITY) {
+        if (points.size() <= MAX_CAPACITY) {
             points.push_back(artist);
         }
         else {
@@ -42,6 +42,9 @@ void QuadtreeNode::removePoint(std::shared_ptr<Artist> artist) {
 }
 
 bool QuadtreeNode::contains(const std::shared_ptr<Artist>& point) const {
+    if (point == nullptr) {
+        return true;
+    }
     return (point->x * scaleX >= x && point->x * scaleX <= (x + width) && point->y * scaleY >= y && point->y * scaleY <= (y + height));
 }
 
@@ -64,4 +67,22 @@ void QuadtreeNode::split() {
         }
     }
     points.clear();
+}
+
+void QuadtreeNode::update() {
+    if (children.empty()) {
+        for (const auto& point : this->points) {
+            if (!this->contains(point)) {
+                auto it = std::find(points.begin(), points.end(), point);
+                points.erase(it);
+                insert(point);
+            }
+        }
+    }
+    else
+    {
+        for (const auto& child : children) {
+            child->update();
+        }
+    }
 }

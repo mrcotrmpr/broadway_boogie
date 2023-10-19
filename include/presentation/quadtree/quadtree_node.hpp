@@ -12,6 +12,7 @@ public:
     void removePoint(std::shared_ptr<Artist> artist);
     bool contains(const std::shared_ptr<Artist>& point) const;
     void split();
+    void update();
     int level;
     float x, y, width, height, scaleX, scaleY;
     const int MAX_CAPACITY = 4;
