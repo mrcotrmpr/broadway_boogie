@@ -6,57 +6,30 @@ QuadtreeNode::QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float p
     children = std::vector<std::shared_ptr<QuadtreeNode>>();
 }
 
-std::vector<std::shared_ptr<Artist>> QuadtreeNode::getPoints() {
-    return this->points;
-}
-
-void QuadtreeNode::removePoint(std::shared_ptr<Artist> artist) {
-    auto it = std::find(points.begin(), points.end(), artist);
-    if (it != points.end()) {
-        points.erase(it);
-    }
-    else {
-        for (const auto& child : children) {
-            child->removePoint(artist);
-        }
-    }
-}
-
 void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
-    if (!containsPoint(artist)) {
-        return;
-    }
-
-    if (!children.empty()) {
-        for (const auto& child : children) {
-            child->insert(artist);
+    if (children.empty()) {
+        if (points.size() < MAX_CAPACITY) {
+            points.push_back(artist);
+        }
+        else {
+            split();
+            for (const auto& a : points) {
+                insert(a);
+            }
+            points.clear();
         }
     }
     else {
-        points.push_back(artist);
-        if (points.size() > MAX_CAPACITY) {
-            split();
-        }
-    }
-}
-
-void QuadtreeNode::unsplit() {
-    if (!children.empty()) {
         for (const auto& child : children) {
-            child->unsplit();
-            for (const auto& point : child->points) {
-                points.push_back(point);
+            if (child->contains(artist)) {
+                child->insert(artist);
+                break;
             }
         }
-        children.clear();
     }
 }
 
-void QuadtreeNode::clear() {
-    points.clear();
-}
-
-bool QuadtreeNode::containsPoint(const std::shared_ptr<Artist>& point) const {
+bool QuadtreeNode::contains(const std::shared_ptr<Artist>& point) const {
     return (point->x * scaleX >= x && point->x * scaleX <= (x + width) && point->y * scaleY >= y && point->y * scaleY <= (y + height));
 }
 
@@ -73,7 +46,7 @@ void QuadtreeNode::split() {
 
     for (const auto& point : points) {
         for (const auto& child : children) {
-            if (child->containsPoint(point)) {
+            if (child->contains(point)) {
                 child->points.push_back(point);
             }
         }

@@ -21,7 +21,7 @@ void Game::addArtist(std::shared_ptr<Artist> artist)
 {
     artists.push_back(artist);
     quadtree->root->insert(artist);
-}
+}   
 
 std::shared_ptr<Node> Game::getNode(float x, float y) {
     for (const auto& node : museum->nodes) {
@@ -71,7 +71,6 @@ void Game::removeArtist(std::shared_ptr<Artist> artist) {
     else {
         std::cout << "Artist not found." << std::endl;
     }
-    quadtree->root->removePoint(artist);
 }
 
 std::shared_ptr<GameStateMemento> Game::createMemento() {
