@@ -7,6 +7,7 @@ class Node;
 
 class Artist : public std::enable_shared_from_this<Artist> {
 public:
+    Artist() = default;
     Artist(float x, float y, float vx, float vy);
     float x;
     float y;
