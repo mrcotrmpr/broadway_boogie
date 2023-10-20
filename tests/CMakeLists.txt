@@ -19,6 +19,7 @@ file(GLOB_RECURSE TEST_SOURCE_FILES CONFIGURE_DEPENDS ./*/*_tests.cpp)
 add_executable(${PROJECT_NAME} ${TEST_SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    SDL2::SDL2
     GTest::gmock
     GTest::gtest_main
     broadway_boogie_lib
