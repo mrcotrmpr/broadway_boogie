@@ -29,18 +29,6 @@ void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
     }
 }
 
-void QuadtreeNode::removePoint(std::shared_ptr<Artist> artist) {
-    auto it = std::find(points.begin(), points.end(), artist);
-    if (it != points.end()) {
-        points.erase(it);
-    }
-    else {
-        for (const auto& child : children) {
-            child->removePoint(artist);
-        }
-    }
-}
-
 bool QuadtreeNode::contains(const std::shared_ptr<Artist>& point) const {
     if (point == nullptr) {
         return true;
@@ -69,31 +57,20 @@ void QuadtreeNode::split() {
     points.clear();
 }
 
-void QuadtreeNode::update() {
-    for (const auto& child : children) {
-        child->update();
-    }
-
-    if (points.size() > MAX_CAPACITY) {
-        split();
-        for (const auto& a : points) {
-            insert(a);
-        }
+void QuadtreeNode::clear() {
+    if (children.empty()) {
         points.clear();
-    }
-
-    std::vector<std::shared_ptr<Artist>> pointsToRemove;
-    for (const auto& point : points) {
-        if (!contains(point)) {
-            pointsToRemove.push_back(point);
+    } else {
+        for (const auto& child : children) {
+            child->clear();
         }
     }
+    children.clear();
+}
 
-    for (const auto& point : pointsToRemove) {
-        auto it = std::find(points.begin(), points.end(), point);
-        if (it != points.end()) {
-            points.erase(it);
-        }        
-        insert(point);
+void QuadtreeNode::update(std::vector<std::shared_ptr<Artist>> artists) {
+    clear();
+    for (const auto& a : artists) {
+        insert(a);
     }
 }

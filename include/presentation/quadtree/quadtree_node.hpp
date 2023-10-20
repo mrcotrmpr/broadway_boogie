@@ -9,10 +9,10 @@ class QuadtreeNode {
 public:
     QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float pHeight, float scaleX, float scaleY);
     void insert(std::shared_ptr<Artist> artist);
-    void removePoint(std::shared_ptr<Artist> artist);
     bool contains(const std::shared_ptr<Artist>& point) const;
     void split();
-    void update();
+    void clear();
+    void update(std::vector<std::shared_ptr<Artist>> artists);
     int level;
     float x, y, width, height, scaleX, scaleY;
     const int MAX_CAPACITY = 4;
