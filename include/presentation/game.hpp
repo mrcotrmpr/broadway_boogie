@@ -16,8 +16,8 @@ public:
 	void start();
 	void addArtist(std::shared_ptr<Artist> artist);
 	void removeArtist(std::shared_ptr<Artist> artist);
-	std::shared_ptr<Node> getNode(float x, float y);
-	std::shared_ptr<Artist> getArtist(float x, float y);
+	std::shared_ptr<Node> getNode(float x, float y, bool scaled);
+	std::shared_ptr<Artist> getArtist(float x, float y, bool scaled);
 	std::vector<std::shared_ptr<Artist>> getArtists();
 	std::shared_ptr<Artist> getArtist(std::shared_ptr<Artist> artist);
 	std::shared_ptr<GameStateMemento> createMemento();
