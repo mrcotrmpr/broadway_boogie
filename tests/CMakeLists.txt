@@ -15,9 +15,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-file(GLOB_RECURSE TEST_SOURCE_FILES CONFIGURE_DEPENDS ./*.cpp)
-file(GLOB_RECURSE TEST_HEADER_FILES CONFIGURE_DEPENDS ./*.hpp)
-add_executable(${PROJECT_NAME} ${TEST_SOURCE_FILES} ${TEST_HEADER_FILES})
+file(GLOB_RECURSE TEST_SOURCE_FILES CONFIGURE_DEPENDS ./*/*_tests.cpp)
+add_executable(${PROJECT_NAME} ${TEST_SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     GTest::gmock
