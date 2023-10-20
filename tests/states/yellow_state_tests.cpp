@@ -20,5 +20,6 @@ TEST(YellowStateTest, TestHandleInteraction) {
     ASSERT_FALSE(game->newArtists.empty());
 
     node->state->handleInteraction(game, node, artist);
+    node->state->handleInteraction(game, node, artist);
     EXPECT_EQ(node->tag, 'G');
 }
