@@ -8,6 +8,7 @@
 class QuadtreeNode {
 public:
     QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float pHeight, float scaleX, float scaleY);
+    std::vector < std::shared_ptr<Artist>> getPoints();
     void insert(std::shared_ptr<Artist> artist);
     bool contains(const std::shared_ptr<Artist>& point) const;
     void split();

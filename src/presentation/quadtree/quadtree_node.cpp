@@ -6,6 +6,11 @@ QuadtreeNode::QuadtreeNode(int pLevel, float pX, float pY, float pWidth, float p
     children = std::vector<std::shared_ptr<QuadtreeNode>>();
 }
 
+std::vector<std::shared_ptr<Artist>> QuadtreeNode::getPoints()
+{
+    return points;
+}
+
 void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
     if (children.empty()) {
         if (points.size() <= MAX_CAPACITY) {

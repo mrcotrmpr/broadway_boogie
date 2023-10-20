@@ -15,17 +15,26 @@ void CollisionManager::checkCollisionsNaive(std::shared_ptr<Game> game)
 void CollisionManager::checkCollisionsQuadtree(std::shared_ptr<Game> game, SDL_Renderer* renderer)
 {
 	game->quadtree->root->update(game->getArtists());
-	renderQuadtreeNodes(game->quadtree->root, renderer);
+	handleQuadtreeNodes(game->quadtree->root, renderer, game);
 }
 
-void CollisionManager::renderQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, SDL_Renderer* renderer) {
+void CollisionManager::handleQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, SDL_Renderer* renderer, std::shared_ptr<Game> game) {
 	if (node) {
+
+		// Render
 		SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		SDL_RenderDrawRect(renderer, &rect);
 
+		// Check collision
+		for (const auto& artist : node->getPoints()) {
+			handleWindowCollisions(artist, game->museum->numRows, game->museum->numCols);
+			handleArtistCollisions(artist, node->getPoints(), game->scaleX, game->scaleY);
+			handlePathCollisions(artist, game);
+		}
+
 		for (const auto& child : node->children) {
-			renderQuadtreeNodes(child, renderer);
+			handleQuadtreeNodes(child, renderer, game);
 		}
 	}
 }
