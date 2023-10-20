@@ -14,7 +14,12 @@ void QuadtreeNode::insert(std::shared_ptr<Artist> artist) {
         else {
             split();
             for (const auto& a : points) {
-                insert(a);
+                // Add the point to each appropriate child node if it lies within its bounds
+                for (const auto& child : children) {
+                    if (child->contains(a)) {
+                        child->points.push_back(a);
+                    }
+                }
             }
             points.clear();
         }
