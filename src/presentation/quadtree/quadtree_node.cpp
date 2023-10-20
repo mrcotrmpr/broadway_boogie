@@ -81,6 +81,9 @@ void QuadtreeNode::clear() {
 void QuadtreeNode::update(std::vector<std::shared_ptr<Artist>> artists) {
     clear();
     for (const auto& a : artists) {
+        if (a->x < 0 || a->x > 53 || a->y < 0 || a->y > 53) {
+            a->direction = (a->direction + 2) % 4;
+        }
         insert(a);
     }
 }
