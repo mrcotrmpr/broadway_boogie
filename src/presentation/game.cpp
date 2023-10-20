@@ -100,7 +100,7 @@ void Game::restoreMemento(std::shared_ptr<GameStateMemento> memento)
 {
     if (memento->savedMuseum) {
         this->museum = std::make_shared<Museum>(*memento->savedMuseum);
-        this->museum->nodes.clear(); // Clear nodes vector before copying
+        this->museum->nodes.clear();
         for (const auto& node : memento->savedMuseum->nodes) {
             auto newNode = std::make_shared<Node>(*node);
             this->museum->nodes.push_back(newNode);
@@ -110,7 +110,7 @@ void Game::restoreMemento(std::shared_ptr<GameStateMemento> memento)
         this->museum = nullptr;
     }
 
-    this->artists.clear(); // Clear artists vector before copying
+    this->artists.clear();
     for (const auto& artist : memento->savedArtists) {
         auto newArtist = std::make_shared<Artist>(*artist);
         this->artists.push_back(newArtist);
