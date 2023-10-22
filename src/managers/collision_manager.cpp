@@ -98,6 +98,9 @@ void CollisionManager::handlePathCollisions(std::shared_ptr<Artist> artist, std:
 			if (node->visited == 'P') {
 				artist->colorTag = 'R';
 			}
+			else {
+				artist->colorTag = 'B';
+			}
 		}
 	}
 }
