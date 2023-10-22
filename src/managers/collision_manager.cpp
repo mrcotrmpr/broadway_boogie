@@ -22,9 +22,11 @@ void CollisionManager::handleQuadtreeNodes(std::shared_ptr<QuadtreeNode> node, S
 	if (node) {
 
 		// Render
-		SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		SDL_RenderDrawRect(renderer, &rect);
+		if (game->renderQuadtree) {
+			SDL_Rect rect = { static_cast<int>(node->x), static_cast<int>(node->y), static_cast<int>(node->width), static_cast<int>(node->height) };
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+			SDL_RenderDrawRect(renderer, &rect);
+		}
 
 		// Check collision
 		for (const auto& artist : node->getPoints()) {
