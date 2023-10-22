@@ -43,11 +43,12 @@ void PathfindingManager::breadthFirstSearch(std::shared_ptr<Game> game)
         }
     }
 
-    // Mark the nodes in the shortest path
+    // Backtrack the shortest path
     std::shared_ptr<Node> currentNode = game->pathFindingEnd;
     while (currentNode != game->pathFindingStart) {
         currentNode->visited = 'P';
         for (const auto& neighbor : currentNode->getNeighbors(game)) {
+            // Neighbour found in the steps map & steps is one less than the current node
             if (steps.find(neighbor) != steps.end() && steps[neighbor] == steps[currentNode] - 1) {
                 currentNode = neighbor;
                 break;
@@ -86,46 +87,48 @@ void PathfindingManager::dijkstra(std::shared_ptr<Game> game)
 
     // Create a priority queue to store nodes with their distances
     std::priority_queue<
-        std::pair<int, std::shared_ptr<Node>>, // Element type: pairs of integers and shared pointers to Node objects
-        std::vector<std::pair<int, std::shared_ptr<Node>>>, // Container type: vector of pairs
-        std::greater<std::pair<int, std::shared_ptr<Node>>> // Comparison function to order elements in the queue
+        std::pair<int, std::shared_ptr<Node>>, // Distance from starting node to current node
+        std::vector<std::pair<int, std::shared_ptr<Node>>>, // Set correct container type
+        std::greater<std::pair<int, std::shared_ptr<Node>>> // Prioritize nodes with smallest distances
     > priorityQueue;
 
+    // Distance from start to start = 0
     priorityQueue.push({ 0, game->pathFindingStart });
 
-    // Map to store the previous node in the optimal path
+    // Map to store the previous node for backtracking purposes
     std::unordered_map<std::shared_ptr<Node>, std::shared_ptr<Node>> previous;
 
     while (!priorityQueue.empty()) {
         auto current = priorityQueue.top().second;
         priorityQueue.pop();
 
-        // Stop if the current node is the target node
         if (current == game->pathFindingEnd) {
+            // Path has been found
             break;
         }
 
-        // Traverse the neighboring nodes of the current node
         for (const auto& neighbor : current->getNeighbors(game)) {
             neighbor->visited = 'V';
-            // Calculate the distance from the start node to the neighbor
+
+            // Calculate the distance from the start node to the current neighbor
             int distance = distances[current] + nodeTypeMap[neighbor->tag]->weight;
 
-            // If the new distance is smaller than the existing distance, update the distance and the previous node
             if (distance < distances[neighbor]) {
+                // Shorter path found
                 distances[neighbor] = distance;
                 previous[neighbor] = current;
                 priorityQueue.push({ distance, neighbor });
             }
         }
-
-        // Backtrack the optimal path and set the nodes to 'P'
-        auto currentNode = game->pathFindingEnd;
-        while (currentNode != nullptr && currentNode != game->pathFindingStart) {
-            currentNode->visited = 'P';
-            currentNode = previous[currentNode];
-        }
     }
+
+    // Backtrack the optimal path and set the nodes to 'P'
+    auto currentNode = game->pathFindingEnd;
+    while (currentNode != nullptr && currentNode != game->pathFindingStart) {
+        currentNode->visited = 'P';
+        currentNode = previous[currentNode];
+    }
+
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Time taken for dijkstra(): " << duration.count() << " miliseconds" << std::endl;
