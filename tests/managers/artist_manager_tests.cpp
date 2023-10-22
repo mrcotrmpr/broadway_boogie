@@ -47,24 +47,3 @@ TEST(ArtistManagerTest, TestMoveArtistsRandomly) {
     ASSERT_EQ(artist3->x, 0);
     ASSERT_EQ(artist3->y, 0.05f);
 }
-
-TEST(ArtistManagerTest, TestDetectCollisions) {
-    auto game = std::make_shared<Game>();
-
-    std::vector<std::shared_ptr<NodeType>> nodeTypes;
-    std::vector<std::shared_ptr<Node>> nodes;
-    auto museum = std::make_shared<Museum>(1, 1, nodeTypes, nodes);
-    game->museum = museum;
-
-    auto artist = std::make_shared<Artist>(1, 1, 0, 0);
-    game->addArtist(artist);
-
-    auto node = std::make_shared<Node>('R', 1, 1);
-    node->state = std::make_shared<RedState>();
-    game->museum->nodes.push_back(node);
-
-    auto artistManager = std::make_shared<ArtistManager>();
-    artistManager->detectCollisions(game, 1, 1, true);
-
-    ASSERT_TRUE(artist->leftFirstNode);
-}

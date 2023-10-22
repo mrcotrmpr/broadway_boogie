@@ -16,6 +16,7 @@ public:
     int direction = rand() % 4;
     char colorTag = 'B';
     std::shared_ptr<Node> lastNode = nullptr;
+    std::shared_ptr<Artist> lastCollision = nullptr;
     bool leftFirstNode = false;
 };
 

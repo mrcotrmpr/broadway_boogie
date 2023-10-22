@@ -46,13 +46,28 @@ void CollisionManager::handleWindowCollisions(std::shared_ptr<Artist> artist, in
 }
 
 void CollisionManager::handleArtistCollisions(std::shared_ptr<Artist> artist, const std::vector<std::shared_ptr<Artist>>& allArtists, float scaleX, float scaleY) {
+	bool foundCollision = false;
 	for (const auto& otherArtist : allArtists) {
 		if (artist != otherArtist && artist->leftFirstNode && otherArtist->leftFirstNode) {
 			if (checkCollision(artist, otherArtist, scaleX, scaleY)) {
-				artist->colorTag = 'R';
-				otherArtist->colorTag = 'R';
+				if (artist->lastCollision == nullptr || (artist->lastCollision == otherArtist && otherArtist->lastCollision == artist)) {
+					artist->colorTag = 'R';
+					artist->lastCollision = otherArtist;
+					otherArtist->colorTag = 'R';
+					otherArtist->lastCollision = artist;
+					foundCollision = true;
+					break;
+				}
 			}
 		}
+	}
+	if (!foundCollision) {
+		artist->colorTag = 'B';
+		if (artist->lastCollision) {
+			artist->lastCollision->colorTag = 'B';
+			artist->lastCollision->lastCollision = nullptr;
+		}
+		artist->lastCollision = nullptr;
 	}
 }
 
