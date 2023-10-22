@@ -76,16 +76,12 @@ bool CollisionManager::checkCollision(const std::shared_ptr<Artist>& artist1, co
 
 void CollisionManager::handlePathCollisions(std::shared_ptr<Artist> artist, std::shared_ptr<Game> game) {
 	if (game->pathCollision) {
-		for (const auto& node : game->museum->nodes) {
+		float artistX = artist->x * game->scaleX;
+		float artistY = artist->y * game->scaleY;
+		auto node = game->getNode(artistX, artistY, true);
+		if (node != nullptr) {
 			if (node->visited == 'P') {
-				float artistX = artist->x * game->scaleX;
-				float artistY = artist->y * game->scaleY;
-				float nodeX = node->x * game->scaleX;
-				float nodeY = node->y * game->scaleY;
-
-				if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
-					artist->colorTag = 'R';
-				}
+				artist->colorTag = 'R';
 			}
 		}
 	}

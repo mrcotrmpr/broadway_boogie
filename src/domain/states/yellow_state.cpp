@@ -10,6 +10,7 @@ void YellowState::handleInteraction(std::shared_ptr<Game> game, std::shared_ptr<
 	
 	if (node->interactions == 2) {
 		node->tag = 'G';
+		node->interactions = 1;
 		node->state = std::make_shared<GrayState>();
 	}
 	else {

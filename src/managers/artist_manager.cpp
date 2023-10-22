@@ -76,36 +76,26 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
             float artistX = artist->x * scaleX;
             float artistY = artist->y * scaleY;
 
-            // Check if the artist is currently on a node
             bool artistOnNode = false;
+            
+            auto node = game->getNode(artistX, artistY, true);
+            if (node != nullptr) {
+                if (!artistOnNode) {
+                    // Check if the current node is different from the last node
+                    if (node != artist->lastNode) {
+                        node->state->handleInteraction(game, node, artist);
 
-            for (const auto& node : game->museum->nodes) {
-                float nodeX = node->x * scaleX;
-                float nodeY = node->y * scaleY;
-
-                // Check if the artist's position is within the bounds of the node
-                if (artistX >= nodeX && artistX <= nodeX + 14 && artistY >= nodeY && artistY <= nodeY + 14) {
-                    // Check if the artist is not already on a node
-                    if (!artistOnNode) {
-                        // Check if the current node is different from the last node
-                        if (node != artist->lastNode) {
-                            node->state->handleInteraction(game, node, artist);
-
-                            // Update the last node for the artist
-                            if (game->getArtist(artist) != nullptr) {
-                                artist->lastNode = node;
-                            }
-                            artist->leftFirstNode = true;
+                        // Update the last node for the artist
+                        if (game->getArtist(artist) != nullptr) {
+                            artist->lastNode = node;
                         }
+                        artist->leftFirstNode = true;
                     }
-
-                    // Set the flag to indicate that the artist is on a node
-                    artistOnNode = true;
                 }
-                else {
-                    // Artist is not on this node
-                    artistOnNode = false;
-                }
+                artistOnNode = true;
+            }
+            else {
+                artistOnNode = false;
             }
         }
     }
@@ -113,6 +103,6 @@ void ArtistManager::detectCollisions(std::shared_ptr<Game> game, float scaleX, f
     for (const auto& artist : game->newArtists) {
         game->addArtist(artist);
     }
-    game->newArtists.clear(); // Clear the newArtists vector for the next iteration
+    game->newArtists.clear();
 }
 
