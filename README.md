@@ -1,6 +1,6 @@
 # CPLUS Design Patterns & Algorithms
 
-School project for avanced design patterns & advanced algorithms and datastructures classes.
+School project for advanced design patterns and advanced algorithms and data structures classes
 
 ## Design patterns
 
