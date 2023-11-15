@@ -2,7 +2,7 @@
 
 std::vector<std::shared_ptr<Artist>> ArtistManager::loadArtists()
 {
-    const std::string csv_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\artists.csv";
+    const std::string csv_filename = "data/artists.csv";
     const std::string csv_url = "https://filebin.net/8eynljvrm1cq98ci/artists.csv";
 
     std::string csv_data = csvReader.read(csv_filename);

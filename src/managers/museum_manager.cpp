@@ -6,7 +6,7 @@
 
 std::shared_ptr<Museum> MuseumManager::loadMuseum()
 {
-    const std::string xml_filename = "C:\\Users\\marco\\source\\repos\\test\\data\\graph.xml";
+    const std::string xml_filename = "data/graph.xml";
     const std::string xml_url = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media";
 
     std::string xml_content = webReader.read(xml_url);

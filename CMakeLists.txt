@@ -11,7 +11,10 @@ find_package(SDL2_ttf REQUIRED)
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ./src/*.cpp)
 file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS ./include/*.hpp)
 
+add_custom_target(copy_data COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/data)
+
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})	
+add_dependencies(${PROJECT_NAME} copy_data)
 add_library(broadway_boogie_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})	
 
 target_include_directories(broadway_boogie PUBLIC include)
